@@ -1,12 +1,14 @@
 # CoG image configured with sqllite backend
+# All setup and configuration is executed by the docker entrypoint
+# when the container starts up.
+
 FROM lucacinquini/cog
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
-# configure and upgrade CoG without ESGF
-RUN cd $COG_INSTALL_DIR && \
-    source $COG_DIR/venv/bin/activate && \
-    python setup.py -q setup_cog --esgf=false
+# start up django+CoG with correct host IP
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
-RUN sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
+# default host IP
+CMD ["localhost"]
