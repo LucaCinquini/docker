@@ -1,7 +1,7 @@
 # Basic CoG image containing CoG software and all required dependencies.
 # No configuration, cannot be run standalone.
 
-FROM lucacinquini/centos67_python27:latest
+FROM esgfhub/centos67_python27:latest
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 

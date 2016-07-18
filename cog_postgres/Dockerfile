@@ -1,5 +1,5 @@
 # CoG image configured for ESGF node
-FROM lucacinquini/cog
+FROM esgfhub/cog
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 

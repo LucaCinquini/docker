@@ -2,7 +2,7 @@
 # All setup and configuration is executed by the docker entrypoint
 # when the container starts up.
 
-FROM lucacinquini/cog
+FROM esgfhub/cog
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
