@@ -47,15 +47,9 @@ RUN echo 'db.host=localhost' >> /esg/config/esgf.properties
 RUN echo 'db.port=5432' >> /esg/config/esgf.properties
 RUN echo 'changeit' >> /esg/config/.esgf_pass
 
-# configure and upgrade CoG (must start postgres as well)
-RUN su -c 'pg_ctl start -D /var/lib/pgsql/data' postgres && \
-    cd $COG_INSTALL_DIR && \
-    source $COG_DIR/venv/bin/activate && \
-    python setup.py setup_cog --esgf=true
+# start up django+CoG with correct host IP
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
-# PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
-RUN sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
-
-# start up django with correct host IP
-#COPY ./docker-entrypoint.sh /
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+# default host IP
+CMD ["localhost"]
