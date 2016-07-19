@@ -101,6 +101,33 @@ EXPOSE 9000
 EXPOSE 9001
 EXPOSE 9002
 
-# start LabCAS services
-#COPY ./docker-entrypoint.sh /
-#ENTRYPOINT ["/docker-entrypoint.sh"]
+# default working directory
+WORKDIR $LABCAS_HOME
+
+# create non-privileged user to run services
+RUN groupadd -r labadmin && \
+    useradd -r -g labadmin labadmin && \
+    mkdir -p ~labadmin
+
+# change user prompt
+RUN echo 'export PS1="[\u@\h]\$ "' >> ~labadmin/.bashrc    
+
+# change ownership of application directories
+RUN chown -R labadmin:labadmin $LABCAS_HOME && \
+    chown -R labadmin:labadmin $LABCAS_STAGING && \
+    chown -R labadmin:labadmin $LABCAS_ARCHIVE && \
+    chown -R labadmin:labadmin $PGE_ROOT && \
+    chown -R labadmin:labadmin $LABCAS_SRC
+
+# expose application data (must do this AFTER chown)
+VOLUME $LABCAS_HOME
+VOLUME $LABCAS_STAGING
+VOLUME $LABCAS_ARCHIVE
+VOLUME $PGE_ROOT
+VOLUME $LABCAS_SRC
+
+# default user
+USER labadmin
+
+# default working directory
+WORKDIR $LABCAS_HOME
