@@ -101,13 +101,11 @@ EXPOSE 9000
 EXPOSE 9001
 EXPOSE 9002
 
-# default working directory
-WORKDIR $LABCAS_HOME
-
 # create non-privileged user to run services
 RUN groupadd -r labadmin && \
     useradd -r -g labadmin labadmin && \
-    mkdir -p ~labadmin
+    mkdir -p ~labadmin && \
+    chown labadmin:labadmin ~labadmin
 
 # change user prompt
 RUN echo 'export PS1="[\u@\h]\$ "' >> ~labadmin/.bashrc    
