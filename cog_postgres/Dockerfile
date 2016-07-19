@@ -1,5 +1,5 @@
 # CoG image configured for ESGF node
-FROM esgfhub/cog
+FROM esgfhub/cog:v3.6.1
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
@@ -46,6 +46,9 @@ RUN echo 'db.user=dbsuper' >> /esg/config/esgf.properties
 RUN echo 'db.host=localhost' >> /esg/config/esgf.properties
 RUN echo 'db.port=5432' >> /esg/config/esgf.properties
 RUN echo 'changeit' >> /esg/config/.esgf_pass
+
+# default working directory
+WORKDIR $COG_INSTALL_DIR
 
 # start up django+CoG with correct host IP
 COPY ./docker-entrypoint.sh /

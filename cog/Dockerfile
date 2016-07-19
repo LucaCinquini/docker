@@ -6,7 +6,7 @@ FROM esgfhub/centos67_python27:latest
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # choose CoG version
-ENV COG_TAG=v3.6.0
+ENV COG_TAG=v3.6.1
 
 # setup CoG environment
 ENV COG_DIR=/usr/local/cog
@@ -48,3 +48,21 @@ RUN cd $COG_DIR && \
     cd mkproxy && \
     make  && \
     cp mkproxy $COG_DIR/venv/lib/python2.7/site-packages/globusonline_transfer_api_client-0.10.16-py2.7.egg/globusonline/transfer/api_client/x509_proxy/.
+
+# expose default django port
+EXPOSE 8000
+
+# create non-privileged user to run django
+RUN groupadd -r cogadmin && \
+    useradd -r -g cogadmin cogadmin && \
+    mkdir -p ~cogadmin && \
+    chown cogadmin:cogadmin ~cogadmin
+
+# change user prompt
+RUN echo 'export PS1="[\u@\h]\$ "' >> ~cogadmin/.bashrc
+
+# change ownership of application directories
+RUN chown -R cogadmin:cogadmin $COG_DIR
+
+# expose application data (must do this AFTER chown)
+VOLUME $COG_DIR
