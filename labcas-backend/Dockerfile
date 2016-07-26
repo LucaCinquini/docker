@@ -59,7 +59,7 @@ VOLUME /root/.m2
 
 # install LabCAS
 
-ENV LABCAS_BACKEND_TAG v0.7.2
+ENV LABCAS_BACKEND_TAG v0.7.3
 
 # define LabCAS environment
 
@@ -118,14 +118,14 @@ RUN chown -R labadmin:labadmin $LABCAS_HOME && \
     chown -R labadmin:labadmin $LABCAS_SRC
 
 # expose application data (must do this AFTER chown)
-VOLUME $LABCAS_HOME
-VOLUME $LABCAS_STAGING
-VOLUME $LABCAS_ARCHIVE
-VOLUME $PGE_ROOT
-VOLUME $LABCAS_SRC
+#VOLUME $LABCAS_HOME
+#VOLUME $LABCAS_STAGING
+#VOLUME $LABCAS_ARCHIVE
+#VOLUME $PGE_ROOT
+#VOLUME $LABCAS_SRC
 
 # default user
-USER labadmin
+#USER labadmin
 
 # default working directory
-WORKDIR $LABCAS_HOME
+#WORKDIR $LABCAS_HOME

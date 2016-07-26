@@ -65,4 +65,4 @@ RUN echo 'export PS1="[\u@\h]\$ "' >> ~cogadmin/.bashrc
 RUN chown -R cogadmin:cogadmin $COG_DIR
 
 # expose application data (must do this AFTER chown)
-VOLUME $COG_DIR
+#VOLUME $COG_DIR
