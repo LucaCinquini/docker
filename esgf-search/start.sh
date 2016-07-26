@@ -11,4 +11,4 @@ export SOLR_INCLUDE=${SOLR_HOME}/solr.in.sh
 ./solr start -d $SOLR_INSTALL_DIR/server -s $SOLR_HOME/slave-8983 -p 8983 -a '-Denable.slave=true'
 
 # start Apache httpd
-service httpd start
+service httpd restart

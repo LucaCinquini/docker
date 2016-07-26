@@ -87,7 +87,9 @@ COPY esgf.properties /esg/config/esgf.properties
 COPY esgf_shards_static.xml /esg/config/esgf_shards_static.xml
 COPY esgf_shards.xml /esg/config/esgf_shards.xml
 
-COPY ./docker-entrypoint.sh /
 COPY ./start.sh /usr/local/bin/start.sh
+COPY ./stop.sh /usr/local/bin/stop.sh
+
+COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["localhost"]
