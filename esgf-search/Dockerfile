@@ -86,6 +86,10 @@ RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/slave-8983/aggregations && \
     sed -i 's/@mycore@/aggregations/g' $SOLR_HOME/slave-8983/aggregations/core.properties && \
     sed -i 's/@solr_config_type@-@solr_server_port@/slave-8983/g' $SOLR_HOME/slave-8983/aggregations/core.properties
 
+# apache httpd
+RUN yum install -y httpd
+COPY localhost.conf /etc/httpd/conf.d/localhost.conf
+
 COPY ./docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["localhost"]
