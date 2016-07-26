@@ -54,31 +54,10 @@ RUN cd /tmp && \
     tar xvf /tmp/solr-home.tar
 RUN mkdir -p $SOLR_HOME
 
-# master-8984
-RUN cp -R /tmp/solr-home $SOLR_HOME/master-8984 && \
-    rm -rf $SOLR_HOME/master-8984/mycore
-RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/master-8984/datasets && \
-    sed -i 's/@mycore@/datasets/g' $SOLR_HOME/master-8984/datasets/core.properties && \
-    sed -i 's/@solr_config_type@-@solr_server_port@/master-8984/g' $SOLR_HOME/master-8984/datasets/core.properties
-RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/master-8984/files && \
-    sed -i 's/@mycore@/files/g' $SOLR_HOME/master-8984/files/core.properties && \
-    sed -i 's/@solr_config_type@-@solr_server_port@/master-8984/g' $SOLR_HOME/master-8984/files/core.properties
-RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/master-8984/aggregations && \
-    sed -i 's/@mycore@/aggregations/g' $SOLR_HOME/master-8984/aggregations/core.properties && \
-    sed -i 's/@solr_config_type@-@solr_server_port@/master-8984/g' $SOLR_HOME/master-8984/aggregations/core.properties
-
-# slave-8983
-RUN cp -R /tmp/solr-home $SOLR_HOME/slave-8983 && \
-    rm -rf $SOLR_HOME/slave-8983/mycore
-RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/slave-8983/datasets && \
-    sed -i 's/@mycore@/datasets/g' $SOLR_HOME/slave-8983/datasets/core.properties && \
-    sed -i 's/@solr_config_type@-@solr_server_port@/slave-8983/g' $SOLR_HOME/slave-8983/datasets/core.properties
-RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/slave-8983/files && \
-    sed -i 's/@mycore@/files/g' $SOLR_HOME/slave-8983/files/core.properties && \
-    sed -i 's/@solr_config_type@-@solr_server_port@/slave-8983/g' $SOLR_HOME/slave-8983/files/core.properties
-RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/slave-8983/aggregations && \
-    sed -i 's/@mycore@/aggregations/g' $SOLR_HOME/slave-8983/aggregations/core.properties && \
-    sed -i 's/@solr_config_type@-@solr_server_port@/slave-8983/g' $SOLR_HOME/slave-8983/aggregations/core.properties
+# add shards
+COPY solr/add_shard.sh /usr/local/bin/add_shard.sh
+RUN /usr/local/bin/add_shard.sh master 8984
+RUN /usr/local/bin/add_shard.sh slave 8983
 
 # ESGF esg-search web application
 # must have version 4.9.2+
