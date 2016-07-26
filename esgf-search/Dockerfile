@@ -35,6 +35,7 @@ RUN wget -O /tmp/apache-tomcat-${TOMCAT_VERSION}.tar.gz http://mirror.reverse.ne
 ENV CATALINA_HOME /usr/local/tomcat
 
 # ESGF esg-search web application
+# must have version 4.9.2+
 COPY esg-search.war /usr/local/tomcat/webapps
 COPY esgf.properties /esg/config/esgf.properties
 COPY esgf_shards_static.xml /esg/config/esgf_shards_static.xml
