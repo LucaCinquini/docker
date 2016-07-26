@@ -6,14 +6,13 @@ MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 # Update to last version
 RUN yum -y update; yum clean all
 
-# pre-requisite: install Java 8
-# Acnowldegment: https://github.com/Mashape/docker-java8/blob/master/Dockerfile
-
 # install utilities
 RUN yum -y update && \
-    yum -y install wget tar && \
+    yum -y install wget tar lsof && \
     yum clean all
 
+# pre-requisite: install Java 8
+# Acnowldegment: https://github.com/Mashape/docker-java8/blob/master/Dockerfile
 # Oracle Java 8
 ENV JAVA_VERSION 8u31
 ENV BUILD_VERSION b13
@@ -25,6 +24,10 @@ RUN alternatives --install /usr/bin/javaws javaws /usr/java/latest/bin/javaws 20
 RUN alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
 ENV JAVA_HOME /usr/java/latest
 
+# apache httpd
+RUN yum install -y httpd
+COPY localhost.conf /etc/httpd/conf.d/localhost.conf
+
 # Tomcat 8
 ENV TOMCAT_VERSION 8.5.4
 
@@ -34,20 +37,11 @@ RUN wget -O /tmp/apache-tomcat-${TOMCAT_VERSION}.tar.gz http://mirror.reverse.ne
     rm /tmp/apache-tomcat-${TOMCAT_VERSION}.tar.gz
 ENV CATALINA_HOME /usr/local/tomcat
 
-# ESGF esg-search web application
-# must have version 4.9.2+
-COPY esg-search.war /usr/local/tomcat/webapps
-COPY esgf.properties /esg/config/esgf.properties
-COPY esgf_shards_static.xml /esg/config/esgf_shards_static.xml
-COPY esgf_shards.xml /esg/config/esgf_shards.xml
-
 # Solr/Jetty web application
 ENV SOLR_VERSION 5.3.1
 ENV SOLR_INSTALL_DIR /usr/local/solr
 ENV SOLR_HOME /usr/local/solr-home
 ENV SOLR_DATA_DIR /esg/solr-index
-
-RUN yum install -y lsof
 
 RUN wget -O /tmp/solr-${SOLR_VERSION}.tgz http://archive.apache.org/dist/lucene/solr/${SOLR_VERSION}/solr-${SOLR_VERSION}.tgz
 RUN cd /usr/local && \
@@ -86,10 +80,14 @@ RUN cp -R /tmp/solr-home/mycore $SOLR_HOME/slave-8983/aggregations && \
     sed -i 's/@mycore@/aggregations/g' $SOLR_HOME/slave-8983/aggregations/core.properties && \
     sed -i 's/@solr_config_type@-@solr_server_port@/slave-8983/g' $SOLR_HOME/slave-8983/aggregations/core.properties
 
-# apache httpd
-RUN yum install -y httpd
-COPY localhost.conf /etc/httpd/conf.d/localhost.conf
+# ESGF esg-search web application
+# must have version 4.9.2+
+COPY esg-search.war /usr/local/tomcat/webapps
+COPY esgf.properties /esg/config/esgf.properties
+COPY esgf_shards_static.xml /esg/config/esgf_shards_static.xml
+COPY esgf_shards.xml /esg/config/esgf_shards.xml
 
 COPY ./docker-entrypoint.sh /
+COPY ./start.sh /usr/local/bin/start.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["localhost"]
