@@ -1,6 +1,8 @@
 # required env variables:
 # SOLR_DATA_DIR : points to Solr index directory
 # 	example: export SOLR_DATA_DIR=/Users/cinquini/data/solr-index
+# DOCKER_IP: IP address of Docker host
+#       example: export DOCKER_IP=`docker-machine ip`
 esgf_solr_app:
   expose:
     - "8983"
@@ -23,6 +25,16 @@ esgf_search_app:
   links:
     - esgf_solr_app
   container_name: esgf_search
+esgf_cog_app:
+   image: esgfhub/cog:v3.6.1_sqllite
+   expose:
+     - "8000"
+   ports:
+     - "8000:8000"
+   links:
+     - esgf_search_app
+   command: $DOCKER_IP
+   container_name: esgf_cog
 esgf_httpd_app:
    volumes:
     - $PWD/localhost.conf:/etc/httpd/conf.d/localhost.conf
@@ -31,4 +43,5 @@ esgf_httpd_app:
    image: esgfhub/esgf-httpd
    links:
      - esgf_search_app:esgf_search_app
+     - esgf_cog_app:esgf_cog_app
    container_name: esgf_httpd
