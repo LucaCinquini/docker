@@ -1,22 +1,29 @@
-solr_app:
+esgf_solr_app:
   expose:
     - "8983"
     - "8984"
-  image: solr
+  ports:
+    - "8983:8983"
+    - "8984:8984" 
+  image: esgfhub/esgf-solr
   container_name: esgf_solr
-tomcat_app:
-  image: tomcat
+esgf_search_app:
+  image: esgfhub/esgf-search
+  expose:
+    - "8080"
+    - "8443"
   ports:
     - "8080:8080"
+    - "8443:8443"
   links:
-    - solr_app:solr_app
-  container_name: esgf_tomcat
-httpd_app:
+    - esgf_solr_app
+  container_name: esgf_search
+esgf_httpd_app:
    volumes:
     - $PWD/localhost.conf:/etc/httpd/conf.d/localhost.conf
    ports:
      - "80:80"
-   image: httpd
+   image: esgfhub/esgf-httpd
    links:
-     - tomcat_app:tomcat_app
-   container_name: "esgf_httpd"
+     - esgf_search_app:esgf_search_app
+   container_name: esgf_httpd

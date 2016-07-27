@@ -1,4 +1,4 @@
-FROM node
+FROM esgfhub/esgf-node
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
@@ -14,11 +14,7 @@ ENV CATALINA_HOME /usr/local/tomcat
 EXPOSE 8080
 EXPOSE 8009
 
-# ESGF esg-search web application
-# must have version 4.9.2+
-COPY esg-search.war /usr/local/tomcat/webapps
-COPY esgf.properties /esg/config/esgf.properties
-COPY esgf_shards_static.xml /esg/config/esgf_shards_static.xml
-COPY esgf_shards.xml /esg/config/esgf_shards.xml
+# customized copy of context.xml that increases the Tomcat cache to avoid flood of warning messages
+COPY context.xml /usr/local/tomcat/conf/context.xml
 
 ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
