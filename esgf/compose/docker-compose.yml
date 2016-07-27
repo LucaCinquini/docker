@@ -1,3 +1,6 @@
+# required env variables:
+# SOLR_DATA_DIR : points to Solr index directory
+# 	example: export SOLR_DATA_DIR=/Users/cinquini/data/solr-index
 esgf_solr_app:
   expose:
     - "8983"
@@ -7,6 +10,8 @@ esgf_solr_app:
     - "8984:8984" 
   image: esgfhub/esgf-solr
   container_name: esgf_solr
+  volumes:
+   - $SOLR_DATA_DIR:/esg/solr-index
 esgf_search_app:
   image: esgfhub/esgf-search
   expose:
