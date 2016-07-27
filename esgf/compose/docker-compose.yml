@@ -1,0 +1,22 @@
+solr_app:
+  expose:
+    - "8983"
+    - "8984"
+  image: solr
+  container_name: esgf_solr
+tomcat_app:
+  image: tomcat
+  ports:
+    - "8080:8080"
+  links:
+    - solr_app:solr_app
+  container_name: esgf_tomcat
+httpd_app:
+   volumes:
+    - $PWD/localhost.conf:/etc/httpd/conf.d/localhost.conf
+   ports:
+     - "80:80"
+   image: httpd
+   links:
+     - tomcat_app:tomcat_app
+   container_name: "esgf_httpd"
