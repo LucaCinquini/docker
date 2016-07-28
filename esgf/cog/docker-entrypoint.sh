@@ -30,4 +30,6 @@ sed -i 's/ALLOWED_HOSTS = .*/ALLOWED_HOSTS = '"${DOCKER_IP}"'/g' $COG_CONFIG_DIR
 sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
 
 # Start CoG in virtual environment
-python ./manage.py runserver 0.0.0.0:8000
+#python ./manage.py runserver 0.0.0.0:8000
+# keep container running
+tail -f /dev/null

@@ -1,11 +1,24 @@
-# ESGF node with Apache httpd
+# ESGF node with Apache httpd and mod_wsgi
 
 FROM esgfhub/esgf-node
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
-RUN yum install -y httpd
+# install latest apache httpd
+RUN yum install -y httpd httpd-devel
+
+# install mod_wsgi
+RUN cd /tmp
+RUN wget 'https://pypi.python.org/packages/c3/4e/f9bd165369642344e8fdbe78c7e820143f73d3beabfba71365f27ee5e4d3/mod_wsgi-4.5.3.tar.gz' && \
+    tar xvf mod_wsgi-4.5.3.tar.gz && \
+    cd mod_wsgi-4.5.3 && \
+    python setup.py install
+
+# FIXME
+RUN cd /etc/httpd/modules && \
+    ln -s /usr/local/lib/python2.7/site-packages/mod_wsgi-4.5.3-py2.7-linux-x86_64.egg/mod_wsgi/server/mod_wsgi-py27.so ./mod_wsgi-py27.so
 
 EXPOSE 80 443
 
-ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]
+#ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]

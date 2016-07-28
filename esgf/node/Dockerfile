@@ -41,16 +41,18 @@ RUN alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 20000
 ENV JAVA_HOME /usr/java/latest
 
 # install Python 2.7
+# note: option "--enable-shared" is needed by mod_wsgi, will generate /usr/local/lib/libpython2.7.so.1.0
 ENV PYTHON_VERSION 2.7.9
 RUN cd /tmp && \
     wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
     tar xvfz Python-${PYTHON_VERSION}.tgz && \
     cd Python-${PYTHON_VERSION} && \
-    ./configure --prefix=/usr/local && \
+    ./configure --prefix=/usr/local --enable-shared && \
     make && \
     make altinstall
 RUN ln -s /usr/local/bin/python2.7 /usr/local/bin/python
 ENV PATH=/usr/local/bin:$PATH
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/local/bin/python:$LD_LIBRARY_PATH
 
 # install additional core Python packages
 ENV PILLOW_VERSION 2.8.2

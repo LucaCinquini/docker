@@ -44,7 +44,7 @@ esgf_cog_app:
      - "8000:8000"
    links:
      - esgf_postgres_app
-     - esgf_search_app
+#     - esgf_search_app
    volumes:
       - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
    command: $DOCKER_IP true
@@ -53,10 +53,13 @@ esgf_cog_app:
 esgf_httpd_app:
    volumes:
      - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+   volumes_from:
+     - esgf_cog_app
    ports:
      - "80:80"
    image: esgfhub/esgf-httpd
    links:
-     - esgf_search_app:esgf_search_app
-     - esgf_cog_app:esgf_cog_app
+#     - esgf_search_app
+     - esgf_cog_app
+     - esgf_postgres_app
    container_name: esgf_httpd
