@@ -47,7 +47,7 @@ esgf_cog_app:
    container_name: esgf_cog
 esgf_httpd_app:
    volumes:
-     - $PWD/localhost.conf:/etc/httpd/conf.d/localhost.conf
+     - $PWD/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
    ports:
      - "80:80"
    image: esgfhub/esgf-httpd
