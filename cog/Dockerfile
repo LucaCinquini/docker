@@ -6,7 +6,7 @@ FROM esgfhub/centos67_python27:latest
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # choose CoG version
-ENV COG_TAG=v3.6.1
+ENV COG_TAG=v3.7.RC1
 
 # setup CoG environment
 ENV COG_DIR=/usr/local/cog
@@ -25,7 +25,8 @@ RUN cd $COG_DIR && \
 
 # checkout specific tag
 RUN cd $COG_INSTALL_DIR && \
-    git checkout $COG_TAG
+    git checkout -b devel origin/devel
+#    git checkout $COG_TAG
 
 # install CoG dependencies
 RUN cd $COG_INSTALL_DIR && \
@@ -47,7 +48,7 @@ RUN cd $COG_DIR && \
     git pull && \
     cd mkproxy && \
     make  && \
-    cp mkproxy $COG_DIR/venv/lib/python2.7/site-packages/globusonline_transfer_api_client-0.10.16-py2.7.egg/globusonline/transfer/api_client/x509_proxy/.
+    cp mkproxy $COG_DIR/venv/lib/python2.7/site-packages/globusonline_transfer_api_client-0.10.18-py2.7.egg/globusonline/transfer/api_client/x509_proxy/.
 
 # expose default django port
 EXPOSE 8000
