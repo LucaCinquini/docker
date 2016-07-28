@@ -1,3 +1,5 @@
+# ESGF node with Tomcat
+
 FROM esgfhub/esgf-node
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
@@ -10,6 +12,10 @@ RUN wget -O /tmp/apache-tomcat-${TOMCAT_VERSION}.tar.gz http://mirror.reverse.ne
     ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat && \
     rm /tmp/apache-tomcat-${TOMCAT_VERSION}.tar.gz
 ENV CATALINA_HOME /usr/local/tomcat
+
+# remove Tomcat example applications
+RUN cd /usr/local/tomcat/webapps && \
+    rm -rf docs examples host-manager manager
 
 EXPOSE 8080
 EXPOSE 8009

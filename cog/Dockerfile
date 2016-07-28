@@ -1,7 +1,6 @@
-# Basic CoG image containing CoG software and all required dependencies.
-# No configuration, cannot be run standalone.
+# ESGF node with CoG web application
 
-FROM esgfhub/centos67_python27:latest
+FROM esgfhub/esgf-node
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
@@ -67,3 +66,7 @@ RUN chown -R cogadmin:cogadmin $COG_DIR
 
 # expose application data (must do this AFTER chown)
 #VOLUME $COG_DIR
+
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["localhost", "false"]

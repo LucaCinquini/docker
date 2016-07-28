@@ -3,6 +3,7 @@
 # 	example: export SOLR_DATA_DIR=/Users/cinquini/data/solr-index
 # DOCKER_IP: IP address of Docker host
 #       example: export DOCKER_IP=`docker-machine ip`
+
 esgf_solr_app:
   expose:
     - "8983"
@@ -14,6 +15,7 @@ esgf_solr_app:
   container_name: esgf_solr
   volumes:
    - $SOLR_DATA_DIR:/esg/solr-index
+
 esgf_search_app:
   image: esgfhub/esgf-search
   expose:
@@ -25,6 +27,7 @@ esgf_search_app:
   links:
     - esgf_solr_app
   container_name: esgf_search
+
 esgf_postgres_app:
    image: esgfhub/esgf-postgres
    expose:
@@ -32,22 +35,24 @@ esgf_postgres_app:
    ports:
      - "5432:5432"
    container_name: esgf_postgres
+
 esgf_cog_app:
-   build: ../cog
+   image: esgfhub/esgf-cog
    expose:
      - "8000"
    ports:
      - "8000:8000"
    links:
-     - esgf_search_app
      - esgf_postgres_app
+     - esgf_search_app
    volumes:
-      - $PWD/cog_setting.cfg /usr/local/cog/cog_config/cog_setting.cfg
-   command: $DOCKER_IP
+      - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
+   command: $DOCKER_IP true
    container_name: esgf_cog
+
 esgf_httpd_app:
    volumes:
-     - $PWD/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+     - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
    ports:
      - "80:80"
    image: esgfhub/esgf-httpd

@@ -13,11 +13,6 @@ echo "ESGF_FLAG=$ESGF_FLAG"
 # use virtualenv
 source $COG_DIR/venv/bin/activate
 
-# use ESGF settings ?
-if [ -f "${COG_CONFIG_DIR}/esgf-cog_settings.cfg" ]; then
-   cp ${COG_CONFIG_DIR}/esgf-cog_settings.cfg ${COG_CONFIG_DIR}/cog_settings.cfg
-fi
-
 # upgrade CoG
 cd $COG_INSTALL_DIR
 python setup.py -q setup_cog --esgf=$ESGF_FLAG
