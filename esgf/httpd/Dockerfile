@@ -12,11 +12,14 @@ RUN cd /tmp
 RUN wget 'https://pypi.python.org/packages/c3/4e/f9bd165369642344e8fdbe78c7e820143f73d3beabfba71365f27ee5e4d3/mod_wsgi-4.5.3.tar.gz' && \
     tar xvf mod_wsgi-4.5.3.tar.gz && \
     cd mod_wsgi-4.5.3 && \
-    python setup.py install
-
-# FIXME
+    python setup.py install && \
+    rm -rf /tmp/mod_wsgi*
 RUN cd /etc/httpd/modules && \
     ln -s /usr/local/lib/python2.7/site-packages/mod_wsgi-4.5.3-py2.7-linux-x86_64.egg/mod_wsgi/server/mod_wsgi-py27.so ./mod_wsgi-py27.so
+
+# by default PYTHON_EGG_CACHE=/var/www/.python-eggs 
+RUN mkdir -p /var/www/.python-eggs && \
+    chown -R apache:apche /var/www/.python-eggs
 
 EXPOSE 80 443
 
