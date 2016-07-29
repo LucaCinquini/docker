@@ -19,9 +19,8 @@ RUN cd /etc/httpd/modules && \
 
 # by default PYTHON_EGG_CACHE=/var/www/.python-eggs 
 RUN mkdir -p /var/www/.python-eggs && \
-    chown -R apache:apche /var/www/.python-eggs
+    chown -R apache:apache /var/www/.python-eggs
 
 EXPOSE 80 443
 
-#ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]
-ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]
