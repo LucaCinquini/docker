@@ -10,6 +10,10 @@ echo "DOCKER_IP=$DOCKER_IP"
 export ESGF_FLAG=$2
 echo "ESGF_FLAG=$ESGF_FLAG"
 
+# runserver=true/false
+export RUNSERVER=$3
+echo "RUNSERVER=$RUNSERVER"
+
 # use virtualenv
 source $COG_DIR/venv/bin/activate
 
@@ -29,7 +33,5 @@ sed -i 's/ALLOWED_HOSTS = .*/ALLOWED_HOSTS = '"${DOCKER_IP}"'/g' $COG_CONFIG_DIR
 # PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
 sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
 
-# Start CoG in virtual environment
-#python ./manage.py runserver 0.0.0.0:8000
-# keep container running
-tail -f /dev/null
+# start CoG in virtual environment
+$RUNSERVER && python ./manage.py runserver 0.0.0.0:8000
