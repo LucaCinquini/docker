@@ -87,7 +87,8 @@ RUN mkdir -p $LABCAS_SRC
 RUN cd $LABCAS_SRC && \
        git clone https://github.com/EDRN/labcas-backend.git && \
        cd labcas-backend && \
-       git checkout $LABCAS_BACKEND_TAG
+       git checkout  -b devel origin/devel
+       #git checkout $LABCAS_BACKEND_TAG
 
 # install all back-end services to $LABCAS_HOME
 RUN cd $LABCAS_SRC/labcas-backend && \ 
@@ -116,6 +117,9 @@ RUN chown -R labadmin:labadmin $LABCAS_HOME && \
     chown -R labadmin:labadmin $LABCAS_ARCHIVE && \
     chown -R labadmin:labadmin $PGE_ROOT && \
     chown -R labadmin:labadmin $LABCAS_SRC
+
+# install python utilities
+RUN yum install -y python-argparse
 
 # expose application data (must do this AFTER chown)
 #VOLUME $LABCAS_HOME
