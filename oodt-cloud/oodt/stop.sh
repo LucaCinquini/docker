@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# Stop all OODT backend services
-
 # CAS File Manager
 cd $OODT_HOME/cas-filemgr/bin
 ./filemgr stop
@@ -13,9 +11,5 @@ cd $OODT_HOME/cas-workflow/bin
 # CAS Resource Manager
 cd $OODT_HOME/cas-resource/bin
 ./resmgr stop
-
-# Solr
-cd $SOLR_INSTALL_DIR/solr/bin
-./solr stop
 
 cd $OODT_HOME

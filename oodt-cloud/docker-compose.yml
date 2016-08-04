@@ -1,12 +1,16 @@
-# NOT required env variables:
-# OODT_HOME : points to OODT installation directory
-#             example: export OODT_HOME=/usr/local/oodt
-# OODT_VERSION : version of OODT to be installed
-#             example: export OODT_VERSION=0.10
+# OODT-in-the-cloud system
 
-oodt_app:
-  image: oodthub/oodt-node
-  container_name: oodt-node
+oodt_solr_app:
+  image: oodthub/oodt-solr
+  container_name: oodt_solr
+  expose:
+    - "8983"
+  ports:
+    - "8983:8983"
+  
+oodt_cas_app:
+  image: oodthub/oodt-cas
+  container_name: oodt_cas
   expose:
     - "9000"
     - "9001"
@@ -15,3 +19,7 @@ oodt_app:
     - "9000:9000"
     - "9001:9001"
     - "9002:9002"
+  links:
+    - oodt_solr_app:oodt_solr_app
+  volumes:
+    - $PWD/oodt/filemgr.properties:/usr/local/oodt/cas-filemgr/etc/filemgr.properties

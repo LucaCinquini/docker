@@ -1,8 +1,8 @@
 #!/bin/bash
 
+# start Solr
 cd $SOLR_INSTALL_DIR/bin
-export SOLR_INCLUDE=${SOLR_HOME}/solr.in.sh
-./solr start -d $SOLR_INSTALL_DIR/server -s $SOLR_HOME/master-8984 -p 8984 -a '-Denable.master=true'
-./solr start -d $SOLR_INSTALL_DIR/server -s $SOLR_HOME/slave-8983 -p 8983 -a '-Denable.slave=true'
+./solr start -p 8983 -s $SOLR_HOME -d $SOLR_INSTALL_DIR/server -a '-Dsolr.data.dir=$SOLR_DATA_DIR'
 
+# keep container running
 tail -f $SOLR_INSTALL_DIR/server/logs/solr.log
