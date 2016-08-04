@@ -1,25 +1,30 @@
 # OODT-in-the-cloud system
 
-oodt_solr_app:
-  image: oodthub/oodt-solr
-  container_name: oodt_solr
+oodt_filemgr_app:
+  image: oodthub/oodt-filemgr
+  container_name: oodt_filemgr
   expose:
+    - "9000"
     - "8983"
   ports:
     - "8983:8983"
-  
-oodt_cas_app:
-  image: oodthub/oodt-cas
-  container_name: oodt_cas
-  expose:
-    - "9000"
-    - "9001"
-    - "9002"
-  ports:
     - "9000:9000"
+  
+oodt_wmgr_app1:
+  image: oodthub/oodt-wmgr
+  container_name: oodt_wmgr1
+  expose:
+    - "9001"
+  ports:
     - "9001:9001"
-    - "9002:9002"
   links:
-    - oodt_solr_app:oodt_solr_app
-  volumes:
-    - $PWD/oodt/filemgr.properties:/usr/local/oodt/cas-filemgr/etc/filemgr.properties
+    - oodt_filemgr_app
+oodt_wmgr_app2:
+  image: oodthub/oodt-wmgr
+  container_name: oodt_wmgr2
+  expose:
+    - "9001"
+  ports:
+    - "8001:9001"
+  links:
+    - oodt_filemgr_app

@@ -1,11 +1,8 @@
 <?xml version="1.0"?>
-<!-- Author: Luca Cinquini 
-     Description: Maven descriptor that installs selected OODT components to $OODT_HOME: 
-     1. File Manager 
-     2. Workflow Manager 
-     3. Resource Manager 
-     4. Crawler 
-     5. PGE -->
+<!-- 
+Author: Luca Cinquini 
+Description: Maven descriptor that installs the OODT Workflow manager into $OODT_HOME.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
@@ -48,7 +45,7 @@
   <build>
     <plugins>
 
-      <!-- install selected OODT components -->
+      <!-- install OODT Workflow Manager -->
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
@@ -63,31 +60,10 @@
               <artifactItems>
                 <artifactItem>
                   <groupId>org.apache.oodt</groupId>
-                  <artifactId>cas-filemgr</artifactId>
-                  <version>${oodt.version}</version>
-                  <classifier>dist</classifier>
-                  <type>tar.gz</type>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.apache.oodt</groupId>
                   <artifactId>cas-workflow</artifactId>
                   <version>${oodt.version}</version>
                   <classifier>dist</classifier>
                   <type>tar.gz</type>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.apache.oodt</groupId>
-                  <artifactId>cas-resource</artifactId>
-                  <version>${oodt.version}</version>
-                  <classifier>dist</classifier>
-                  <type>tar.gz</type>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>org.apache.oodt</groupId>
-                  <artifactId>cas-crawler</artifactId>
-                  <version>${oodt.version}</version>
-                  <classifier>dist</classifier>
-                  <type>tar.gz</type>                                   
                 </artifactItem>
               </artifactItems>
               <outputDirectory>${oodt.dir}</outputDirectory>
