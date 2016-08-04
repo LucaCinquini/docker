@@ -1,0 +1,17 @@
+# NOT required env variables:
+# OODT_HOME : points to OODT installation directory
+#             example: export OODT_HOME=/usr/local/oodt
+# OODT_VERSION : version of OODT to be installed
+#             example: export OODT_VERSION=0.10
+
+oodt_app:
+  image: oodthub/oodt-node
+  container_name: oodt-node
+  expose:
+    - "9000"
+    - "9001"
+    - "9002"
+  ports:
+    - "9000:9000"
+    - "9001:9001"
+    - "9002:9002"
