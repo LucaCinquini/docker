@@ -60,6 +60,7 @@ esgf_httpd_app:
      - "80:80"
    image: esgfhub/esgf-httpd
    links:
+     - esgf_solr_app
      - esgf_search_app
      - esgf_cog_app
      - esgf_postgres_app
