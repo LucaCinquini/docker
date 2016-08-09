@@ -6,7 +6,7 @@ MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # OODT File Manager
 ENV OODT_HOME /usr/local/oodt
-ENV OODT_VERSION 0.10
+ENV OODT_VERSION 1.0
 RUN mkdir -p $OODT_HOME
 COPY pom.xml /tmp/pom.xml
 RUN cd /tmp && mvn install
