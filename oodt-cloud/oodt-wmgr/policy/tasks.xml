@@ -1,5 +1,4 @@
 <?xml version="1.0" standalone="no" ?>
-<!DOCTYPE doc [ <!ENTITY labcas_config SYSTEM "../../workflows/labcas-upload/policy/labcas_config.xml"> ]>
 
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
@@ -27,7 +26,7 @@
     <configuration>
       <property name="PGETask_Name" value="TestWorkflowTask1" />
       <property name="PGETask_ConfigFilePath"
-        value="[OODT_HOME]/workflows/test-workflow/pge-configs/test-workflow-task1-config.pgeconfig.xml"
+        value="[OODT_HOME]/config/workflows/test-workflow/pge-configs/test-workflow-task1-config.pgeconfig.xml"
         envReplace="true" />
       <property name="PGETask_DumpMetadata" value="true" />
       <property name="PCS_WorkflowManagerUrl" value="[WORKFLOW_URL]" envReplace="true" />
@@ -37,6 +36,11 @@
       <property name="PCS_ActionRepoFile" value="file:[OODT_HOME]/cas-crawler/policy/crawler-config.xml"
         envReplace="true" />
     </configuration>
+
+    <requiredMetFields>
+      <metfield name="Dataset" />
+      <metfield name="Project" />
+    </requiredMetFields>
     
   </task>
 

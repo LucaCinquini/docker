@@ -43,4 +43,10 @@ EXPOSE 8983
 COPY start.sh /usr/local/bin/start-filemgr.sh
 COPY stop.sh /usr/local/bin/stop-filemgr.sh
 
+RUN mkdir -p $OODT_HOME/config/products
+COPY policy/ $OODT_HOME/config/products/policy/
+
+ENV OODT_ARCHIVE_DIR $OODT_HOME/archive
+RUN mkdir -p $OODT_ARCHIVE_DIR
+
 ENTRYPOINT ["/usr/local/bin/start-filemgr.sh"]

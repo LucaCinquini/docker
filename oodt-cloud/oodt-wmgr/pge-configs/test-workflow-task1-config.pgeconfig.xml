@@ -3,8 +3,8 @@
 
 	<!-- PGE commands -->
 	<exe dir="[JobDir]" shell="/bin/bash">
-		<cmd>cd [OODT_HOME]</cmd>
-		<cmd>ls -l</cmd>
+		<cmd>cd [JobDir]</cmd>
+		<cmd>ls -l  > listing.out</cmd>
 	</exe>
 
 	<customMetadata>
@@ -12,5 +12,15 @@
 		<metadata key="JobDir"
 			val="[PGE_ROOT]/test-workflow/jobs/[ProductionDateTime]" />
 	</customMetadata>
+
+	<!-- CAS Crawler directives -->
+	<output>
+	  <dir path="[JobDir]" createBeforeExe="false">
+            <files regExp=".*\.out" 
+                   metFileWriterClass="org.apache.oodt.cas.pge.writers.metlist.MetadataListPcsMetFileWriter" 
+                   args="[OODT_HOME]/config/workflows/test-workflow/pge-configs/metout.xml" />
+        </dir>
+	</output>
+
 
 </pgeConfig>
