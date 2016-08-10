@@ -38,7 +38,7 @@ ENV OODT_ARCHIVE_DIR /usr/local/oodt-archive
 run mkdir -p $OODT_ARCHIVE_DIR
 
 ENV WORKFLOW_URL http://localhost:9001/
-ENV FILEMGR_URL http://oodt_filemgr_app:9000/
+ENV FILEMGR_URL http://filemgr.oodt.net:9000/
 
 EXPOSE 9001
 

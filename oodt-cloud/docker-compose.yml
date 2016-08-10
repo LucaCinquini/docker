@@ -24,7 +24,7 @@ oodt_wmgr_app1:
   ports:
     - "9001:9001"
   links:
-    - oodt_filemgr_app
+    - oodt_filemgr_app:filemgr.oodt.net
   volumes_from:
     - oodt_crawler_app
 
@@ -36,6 +36,6 @@ oodt_wmgr_app2:
   ports:
     - "8001:9001"
   links:
-    - oodt_filemgr_app
+    - oodt_filemgr_app:filemgr.oodt.net
   volumes_from:
     - oodt_crawler_app
