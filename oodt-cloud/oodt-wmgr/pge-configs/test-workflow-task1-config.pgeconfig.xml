@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pgeConfig>
+
+	<!-- PGE commands -->
+	<exe dir="[JobDir]" shell="/bin/bash">
+		<cmd>cd [OODT_HOME]</cmd>
+		<cmd>ls -l</cmd>
+	</exe>
+
+	<customMetadata>
+		<metadata key="ProductionDateTime" val="[DATE.UTC]" />
+		<metadata key="JobDir"
+			val="[PGE_ROOT]/test-workflow/jobs/[ProductionDateTime]" />
+	</customMetadata>
+
+</pgeConfig>

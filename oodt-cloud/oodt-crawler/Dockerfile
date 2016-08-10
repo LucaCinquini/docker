@@ -15,5 +15,7 @@ RUN cd /tmp && mvn install
 RUN cd $OODT_HOME && \
     ln -s ./cas-crawler-${OODT_VERSION} cas-crawler
 
+VOLUME $OODT_HOME/cas-crawler
+
 # keep container running
 ENTRYPOINT ["tail", "-f", "/dev/null"]
