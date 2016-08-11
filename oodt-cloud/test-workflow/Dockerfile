@@ -17,4 +17,8 @@ RUN mkdir -p $OODT_SITE_DIR/workflows/test-workflow
 COPY wmgr_config/policy/ $OODT_SITE_DIR/workflows/test-workflow/policy/
 COPY wmgr_config/pge-configs/ $OODT_SITE_DIR/workflows/test-workflow/pge-configs/
 
+# install custom PGEs
+RUN mkdir -p $OODT_SITE_DIR/pges/test-workflow
+COPY pges/ $OODT_SITE_DIR/pges/test-workflow/
+
 VOLUME $OODT_SITE_DIR

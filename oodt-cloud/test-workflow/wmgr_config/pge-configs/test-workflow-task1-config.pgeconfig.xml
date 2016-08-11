@@ -4,7 +4,7 @@
 	<!-- PGE commands -->
 	<exe dir="[JobDir]" shell="/bin/bash">
 		<cmd>cd [JobDir]</cmd>
-		<cmd>ls -l  > listing.out</cmd>
+		<cmd>python [OODT_SITE_DIR]/pges/test-workflow/writeBin.py</cmd>
 	</exe>
 
 	<customMetadata>
