@@ -58,5 +58,7 @@ EXPOSE 8983
 # install start/stop scripts
 COPY start.sh /usr/local/bin/start-filemgr.sh
 COPY stop.sh /usr/local/bin/stop-filemgr.sh
+COPY supervisord.conf /etc/supervisor/supervisord-filemgr.conf
 
-ENTRYPOINT ["/usr/local/bin/start-filemgr.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord-filemgr.conf"]
+#ENTRYPOINT ["/usr/local/bin/start-filemgr.sh"]

@@ -2,6 +2,7 @@
 # -) some system utilities
 # -) Java 8
 # -) Maven
+# -) Supervisor
 
 FROM centos:centos6.7
 
@@ -12,7 +13,7 @@ RUN yum -y update; yum clean all
 
 # install system utilities
 RUN yum -y update && \
-    yum -y install git lsof unzip tar wget zip && \
+    yum -y install git lsof unzip python-setuptools tar wget zip && \
     yum clean all
 
 # Java 8
@@ -34,3 +35,7 @@ RUN mkdir -p /usr/share/maven \
     && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 ENV MAVEN_HOME /usr/share/maven
 VOLUME /root/.m2
+
+# install Supervisor
+RUN easy_install supervisor
+RUN mkdir -p /var/log/supervisor
