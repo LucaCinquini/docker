@@ -7,7 +7,7 @@ MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 # OODT env
 ENV OODT_VERSION 1.0
 ENV OODT_HOME /usr/local/oodt
-ENV PGE_ROOT $OODT_ROOT/pges
+ENV PGE_ROOT $OODT_HOME/pges
 ENV WORKFLOW_URL http://localhost:9001/
 ENV FILEMGR_URL http://filemgr.oodt.net:9000/
 
@@ -22,6 +22,7 @@ RUN cd $OODT_HOME && \
 
 # create directories that don't exist
 RUN mkdir ${OODT_HOME}/run
+RUN mkdir -p $PGE_ROOT
 # customize workflow.properties
 COPY workflow.properties $OODT_HOME/cas-workflow/etc/workflow.properties
 RUN mkdir -p $OODT_HOME/config/workflows

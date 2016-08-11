@@ -10,7 +10,7 @@
 	<customMetadata>
 		<metadata key="ProductionDateTime" val="[DATE.UTC]" />
 		<metadata key="JobDir"
-			val="[PGE_ROOT]/test-workflow/jobs/[ProductionDateTime]" />
+			val="[PGE_ROOT]/test-workflow/jobs/[WorkflowInstId]" />
 	</customMetadata>
 
 	<!-- CAS Crawler directives -->
