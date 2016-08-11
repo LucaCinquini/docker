@@ -33,7 +33,7 @@ RUN mkdir -p $OODT_ARCHIVE_DIR
 
 # location of custom policy files
 RUN mkdir -p $OODT_HOME/config/products
-COPY policy/ $OODT_HOME/config/products/policy/
+#COPY policy/ $OODT_HOME/config/products/policy/
 
 # customize filemgr.properties
 COPY filemgr.properties $OODT_HOME/cas-filemgr/etc/filemgr.properties

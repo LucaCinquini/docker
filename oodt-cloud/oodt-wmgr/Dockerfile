@@ -28,9 +28,9 @@ COPY workflow.properties $OODT_HOME/cas-workflow/etc/workflow.properties
 RUN mkdir -p $OODT_HOME/config/workflows
 
 # FIXME
-RUN mkdir -p $OODT_HOME/config/workflows/test-workflow
-COPY policy/ $OODT_HOME/config/workflows/test-workflow/policy/
-COPY pge-configs/ $OODT_HOME/config/workflows/test-workflow/pge-configs/
+#RUN mkdir -p $OODT_HOME/config/workflows/test-workflow
+#COPY policy/ $OODT_HOME/config/workflows/test-workflow/policy/
+#COPY pge-configs/ $OODT_HOME/config/workflows/test-workflow/pge-configs/
 
 # install scripts
 COPY start.sh /usr/local/bin/start-wmgr.sh
