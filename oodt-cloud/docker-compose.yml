@@ -46,3 +46,4 @@ oodt_wmgr_app2:
 
 oodt_test_workflow_app:
   image: oodthub/oodt-test-workflow
+  container_name: oodt_test_workflow

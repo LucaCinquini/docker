@@ -10,6 +10,7 @@ ENV OODT_HOME /usr/local/oodt
 ENV PGE_ROOT $OODT_HOME/pges
 ENV WORKFLOW_URL http://localhost:9001/
 ENV FILEMGR_URL http://filemgr.oodt.net:9000/
+ENV OODT_SITE_DIR ${OODT_SITE_DIR:-${OODT_HOME}/mysite}
 
 # install OODT Workflow Manager
 RUN mkdir -p $OODT_HOME
@@ -25,12 +26,7 @@ RUN mkdir ${OODT_HOME}/run
 RUN mkdir -p $PGE_ROOT
 # customize workflow.properties
 COPY workflow.properties $OODT_HOME/cas-workflow/etc/workflow.properties
-RUN mkdir -p $OODT_HOME/config/workflows
-
-# FIXME
-#RUN mkdir -p $OODT_HOME/config/workflows/test-workflow
-#COPY policy/ $OODT_HOME/config/workflows/test-workflow/policy/
-#COPY pge-configs/ $OODT_HOME/config/workflows/test-workflow/pge-configs/
+RUN mkdir -p $OODT_SITE_DIR/workflows
 
 # install scripts
 COPY start.sh /usr/local/bin/start-wmgr.sh

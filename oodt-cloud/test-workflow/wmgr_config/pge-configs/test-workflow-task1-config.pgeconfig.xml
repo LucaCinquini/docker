@@ -18,7 +18,7 @@
 	  <dir path="[JobDir]" createBeforeExe="false">
             <files regExp=".*\.out" 
                    metFileWriterClass="org.apache.oodt.cas.pge.writers.metlist.MetadataListPcsMetFileWriter" 
-                   args="[OODT_HOME]/config/workflows/test-workflow/pge-configs/metout.xml" />
+                   args="[OODT_SITE_DIR]/workflows/test-workflow/pge-configs/metout.xml" />
         </dir>
 	</output>
 

@@ -8,6 +8,7 @@ MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 ENV OODT_VERSION 1.0
 ENV OODT_HOME /usr/local/oodt
 ENV OODT_ARCHIVE_DIR ${OODT_ARCHIVE_DIR:-${OODT_HOME}/archive}
+ENV OODT_SITE_DIR ${OODT_SITE_DIR:-${OODT_HOME}/mysite}
 
 # Solr env
 ENV SOLR_VERSION 5.3.1
@@ -32,8 +33,7 @@ RUN mkdir -p ${OODT_HOME}/cas-filemgr/logs
 RUN mkdir -p $OODT_ARCHIVE_DIR
 
 # location of custom policy files
-RUN mkdir -p $OODT_HOME/config/products
-#COPY policy/ $OODT_HOME/config/products/policy/
+RUN mkdir -p $OODT_SITE_DIR/products
 
 # customize filemgr.properties
 COPY filemgr.properties $OODT_HOME/cas-filemgr/etc/filemgr.properties
