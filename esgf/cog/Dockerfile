@@ -5,7 +5,7 @@ FROM esgfhub/esgf-node
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # choose CoG version
-ENV COG_TAG=v3.7.RC1
+ENV COG_TAG=v3.7.RC2
 
 # setup CoG environment
 ENV COG_DIR=/usr/local/cog
@@ -24,8 +24,8 @@ RUN cd $COG_DIR && \
 
 # checkout specific tag
 RUN cd $COG_INSTALL_DIR && \
-    git checkout -b devel origin/devel
-#    git checkout $COG_TAG
+#    git checkout -b devel origin/devel
+    git checkout $COG_TAG
 
 # install CoG dependencies
 RUN cd $COG_INSTALL_DIR && \
@@ -69,4 +69,4 @@ VOLUME $COG_DIR
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["localhost", "false"]
+CMD ["localhost", "false", "true"]
