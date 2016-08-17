@@ -5,7 +5,7 @@ FROM esgfhub/esgf-node
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # install latest apache httpd
-RUN yum install -y httpd httpd-devel
+RUN yum install -y httpd httpd-devel mod_ssl
 
 # install mod_wsgi
 RUN cd /tmp
@@ -20,6 +20,11 @@ RUN cd /etc/httpd/modules && \
 # by default PYTHON_EGG_CACHE=/var/www/.python-eggs 
 RUN mkdir -p /var/www/.python-eggs && \
     chown -R apache:apache /var/www/.python-eggs
+
+# FIXME
+#COPY certs/ /etc/certs/
+#COPY conf.d/ /etc/httpd/conf.d/
+#COPY html/ /var/www/html/
 
 EXPOSE 80 443
 

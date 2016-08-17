@@ -52,12 +52,14 @@ esgf_cog_app:
 
 esgf_httpd_app:
    volumes:
-     - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+     - $PWD/httpd/certs/:/etc/certs/
+     - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/ssl.conf
      - $PWD/httpd/esgf-docker-entrypoint.sh:/esgf-docker-entrypoint.sh
    volumes_from:
      - esgf_cog_app
    ports:
      - "80:80"
+     - "443:443"
    image: esgfhub/esgf-httpd
    links:
      - esgf_solr_app
