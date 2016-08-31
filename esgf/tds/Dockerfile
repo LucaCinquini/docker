@@ -27,6 +27,16 @@ COPY esgf-applicationContext.xml /usr/local/tomcat/webapps/thredds/WEB-INF/appli
 # customized web.xml file with ESGF security filters
 #COPY esgf-web.xml /usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
 
+# FIXME
+RUN mkdir -p /usr/local/tomcat/webapps/esg-orp
+COPY esg-orp.war /usr/local/tomcat/webapps/esg-orp/esg-orp.war
+RUN cd /usr/local/tomcat/webapps/esg-orp && \
+    jar xvf esg-orp.war && \
+    rm esg-orp.war
+
+# properties to read the Tomcat kesytore, used to sign the authentication cookie
+COPY esg-orp.properties /usr/local/tomcat/webapps/esg-orp/WEB-INF/classes/esg-orp.properties
+
 COPY setenv.sh $CATALINA_HOME/bin
 
 ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]

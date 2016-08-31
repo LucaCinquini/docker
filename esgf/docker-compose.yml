@@ -4,53 +4,77 @@
 # DOCKER_IP: IP address of Docker host
 #       example: export DOCKER_IP=`docker-machine ip`
 
-esgf_solr_app:
-  expose:
-    - "8983"
-    - "8984"
-  ports:
-    - "8983:8983"
-    - "8984:8984" 
-  image: esgfhub/esgf-solr
-  container_name: esgf_solr
-  volumes:
-   - $SOLR_DATA_DIR:/esg/solr-index
+version: '2'
 
-esgf_search_app:
-  image: esgfhub/esgf-search
-  expose:
-    - "8080"
-    - "8443"
-  ports:
-    - "8080:8080"
-    - "8443:8443"
-  links:
-    - esgf_solr_app
-  container_name: esgf_search
+networks:
+  mynet:
+    external:
+      name: mynetwork
 
-esgf_postgres_app:
-   image: esgfhub/esgf-postgres
-   expose:
-     - "5432"
-   ports:
-     - "5432:5432"
-   container_name: esgf_postgres
+services:
+  esgf_tomcat_app:
+    expose:
+      - "8080"
+      - "8443"
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    image: esgfhub/esgf-tomcat
+    container_name: esgf_tomcat
+    networks:
+      default: {}
+      mynet:
+        aliases:
+          - my.esgf.node
+    entrypoint: ["tail", "-f", "/dev/null"]
 
-esgf_cog_app:
-   image: esgfhub/esgf-cog
-   expose:
-     - "8000"
-   ports:
-     - "8000:8000"
-   links:
-     - esgf_postgres_app
-     - esgf_search_app
-   volumes:
+  esgf_solr_app:
+    expose:
+      - "8983"
+      - "8984"
+    ports:
+      - "8983:8983"
+      - "8984:8984" 
+    image: esgfhub/esgf-solr
+    container_name: esgf_solr
+    volumes:
+     - $SOLR_DATA_DIR:/esg/solr-index
+
+  esgf_search_app:
+    image: esgfhub/esgf-search
+    expose:
+      - "8080"
+      - "8443"
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    links:
+      - esgf_solr_app
+    container_name: esgf_search
+
+  esgf_postgres_app:
+     image: esgfhub/esgf-postgres
+     expose:
+       - "5432"
+     ports:
+       - "5432:5432"
+     container_name: esgf_postgres
+
+  esgf_cog_app:
+     image: esgfhub/esgf-cog
+     expose:
+       - "8000"
+     ports:
+       - "8000:8000"
+     links:
+       - esgf_postgres_app
+       - esgf_search_app
+     volumes:
       - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
-   command: $DOCKER_IP true false
-   container_name: esgf_cog
+     command: $DOCKER_IP true false
+     container_name: esgf_cog
 
-esgf_httpd_app:
+  esgf_httpd_app:
    volumes:
      - $PWD/httpd/certs/:/etc/certs/
      - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf

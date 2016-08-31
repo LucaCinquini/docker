@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<catalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0" name="TDS configuration file" xsi:schemaLocation="http://www.unidata.ucar.edu/namespaces/thredds/InvCatalog/v1.0 http://www.unidata.ucar.edu/schemas/thredds/InvCatalog.1.0.2.xsd">
+  <service base="/thredds/dodsC/" desc="OpenDAP" name="gridded" serviceType="OpenDAP">
+    <property name="requires_authorization" value="false"/>
+    <property name="application" value="Web Browser"/>
+  </service>
+  <service base="http://esgf-node.jpl.nasa.gov/las/getUI.do" desc="Live Access Server" name="LASatJPL" serviceType="LAS">
+    <property name="requires_authorization" value="false"/>
+    <property name="application" value="Web Browser"/>
+  </service>
+  <service base="" name="fileservice" serviceType="Compound">
+    <service base="http://my.esgf.node:8080/thredds/fileServer/" desc="HTTPServer" name="HTTPServer" serviceType="HTTPServer">
+      <property name="requires_authorization" value="true"/>
+      <property name="application" value="Web Browser"/>
+      <property name="application" value="Web Script"/>
+    </service>
+    <service base="gsiftp://esgf-data.jpl.nasa.gov:2811/" desc="GridFTP" name="GRIDFTP" serviceType="GridFTP">
+      <property name="requires_authorization" value="true"/>
+      <property name="application" value="DataMover-Lite"/>
+    </service>
+    <service base="/thredds/dodsC/" desc="OpenDAP" name="OpenDAPServer" serviceType="OpenDAP">
+      <property name="requires_authorization" value="false"/>
+      <property name="application" value="Web Browser"/>
+    </service>
+    <service base="globus:e3f6216e-063e-11e6-a732-22000bf2d559/" desc="Globus Transfer Service" name="Globus" serviceType="Globus">
+      <property name="requires_authorization" value="false"/>
+      <property name="application" value="Web Browser"/>
+    </service>
+  </service>
+  <service base="srm://host.sample.gov:6288/srm/v2/server?SFN=/archive.sample.gov/" desc="SRM" name="HRMatPCMDI" serviceType="SRM">
+    <property name="requires_authorization" value="false"/>
+  </service>
+  <property name="catalog_version" value="2"/>
+  <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.v20110829" name="obs4MIPs AVISO Sea Surface Height Above Geoid L4 Monthly Data" restrictAccess="esg-user">
+    <property name="dataset_id" value="obs4MIPs.CNES.AVISO.zos.mon"/>
+    <property name="dataset_version" value="20110829"/>
+    <property name="dataset_id_template_" value="%(project)s.%(institute)s.%(source_id)s.%(variable)s.%(time_frequency)s"/>
+    <property name="project" value="obs4MIPs"/>
+    <property name="product" value="observations"/>
+    <property name="realm" value="ocean"/>
+    <property name="variable" value="zos"/>
+    <property name="time_frequency" value="mon"/>
+    <property name="data_structure" value="grid"/>
+    <property name="institute" value="CNES"/>
+    <property name="source_id" value="AVISO"/>
+    <property name="version" value=""/>
+    <property name="processing_level" value="L4"/>
+    <property name="experiment" value="obs"/>
+    <property name="model" value="Obs-AVISO"/>
+    <property name="creation_time" value="2016-06-09 09:48:16"/>
+    <property name="title" value="Obs-AVISO model output prepared for obs4MIPs NASA-JPL observation"/>
+    <metadata>
+      <variables vocabulary="CF-1.0">
+        <variable name="zosNobs" vocabulary_name="Sea Surface Height Above Geoid Number of Observations" units="1">Sea Surface Height Above Geoid Number of Observations</variable>
+        <variable name="zosStderr" vocabulary_name="Sea Surface Height Above Geoid Standard Error" units="m">Sea Surface Height Above Geoid Standard Error</variable>
+        <variable name="zos" vocabulary_name="sea_surface_height_above_geoid" units="m">Sea Surface Height Above Geoid</variable>
+      </variables>
+    </metadata>
+    <metadata inherited="true">
+      <dataType>Grid</dataType>
+      <dataFormat>NetCDF</dataFormat>
+    </metadata>
+    <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.v20110829"/>
+    <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.v20110829.zosNobs_AVISO_L4_199210-201012.nc" name="zosNobs_AVISO_L4_199210-201012.nc" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zosNobs/mon/grid/CNES/AVISO/v20110829/zosNobs_AVISO_L4_199210-201012.nc" serviceName="HTTPServer">
+      <property name="file_id" value="obs4MIPs.CNES.AVISO.zos.mon.zosNobs_AVISO_L4_199210-201012.nc"/>
+      <property name="file_version" value="1"/>
+      <property name="size" value="56792616"/>
+      <property name="tracking_id" value="2209a0d0-9b77-4ecb-b2ab-b7ae412e7a3f"/>
+      <property name="mod_time" value="2015-12-18 09:44:31"/>
+      <property name="checksum" value="83df8ae93e85e26df797d5f770449470987a4ecd8f2d405159995b5cac9a410c"/>
+      <property name="checksum_type" value="SHA256"/>
+      <variables vocabulary="CF-1.0">
+        <variable name="zosNobs" vocabulary_name="Sea Surface Height Above Geoid Number of Observations" units="1">Sea Surface Height Above Geoid Number of Observations</variable>
+      </variables>
+      <dataSize units="bytes">56792616</dataSize>
+      <access serviceName="GRIDFTP" urlPath="/esg_dataroot/obs4MIPs/observations/ocean/zosNobs/mon/grid/CNES/AVISO/v20110829/zosNobs_AVISO_L4_199210-201012.nc"/>
+      <access serviceName="OpenDAPServer" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zosNobs/mon/grid/CNES/AVISO/v20110829/zosNobs_AVISO_L4_199210-201012.nc"/>
+      <access serviceName="Globus" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zosNobs/mon/grid/CNES/AVISO/v20110829/zosNobs_AVISO_L4_199210-201012.nc"/>
+    </dataset>
+    <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation" name="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation">
+      <property name="aggregation_id" value="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation"/>
+      <variables vocabulary="CF-1.0">
+        <variable name="zosNobs" vocabulary_name="Sea Surface Height Above Geoid Number of Observations" units="1">Sea Surface Height Above Geoid Number of Observations</variable>
+      </variables>
+      <metadata inherited="true">
+        <geospatialCoverage>
+          <northsouth>
+            <start>-89.500000</start>
+            <size>179.0</size>
+            <units>degrees_north</units>
+          </northsouth>
+          <eastwest>
+            <start>0.500000</start>
+            <size>359.0</size>
+            <units>degrees_east</units>
+          </eastwest>
+        </geospatialCoverage>
+        <timeCoverage>
+          <start>1992-10-16T12:00:00</start>
+          <end>2010-12-16T12:00:00</end>
+        </timeCoverage>
+      </metadata>
+      <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation"/>
+      <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation.1" name="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation - Subset 1" serviceName="gridded" urlPath="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation.1">
+        <property name="aggregation_id" value="obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation.1"/>
+        <property name="time_delta" value="1 month"/>
+        <property name="calendar" value="standard"/>
+        <property name="start" value="1992-10-1 0:0:0.0"/>
+        <property name="time_length" value="219"/>
+        <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.zosNobs.20110829.aggregation.1"/>
+        <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+          <aggregation dimName="time" type="joinExisting">
+            <netcdf location="/esg/data/obs4MIPs/observations/ocean/zosNobs/mon/grid/CNES/AVISO/v20110829/zosNobs_AVISO_L4_199210-201012.nc" ncoords="219"/>
+          </aggregation>
+        </netcdf>
+      </dataset>
+    </dataset>
+    <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.v20110829.zosStderr_AVISO_L4_199210-201012.nc" name="zosStderr_AVISO_L4_199210-201012.nc" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zosStderr/mon/grid/CNES/AVISO/v20110829/zosStderr_AVISO_L4_199210-201012.nc" serviceName="HTTPServer">
+      <property name="file_id" value="obs4MIPs.CNES.AVISO.zos.mon.zosStderr_AVISO_L4_199210-201012.nc"/>
+      <property name="file_version" value="1"/>
+      <property name="size" value="56792712"/>
+      <property name="tracking_id" value="92a0a3a2-f25c-4819-8419-79470b561996"/>
+      <property name="mod_time" value="2015-12-18 09:44:31"/>
+      <property name="checksum" value="8a24f8aa618cff0e1fdf5279e8b535b23478061da60f60ffee68aaa86515ad09"/>
+      <property name="checksum_type" value="SHA256"/>
+      <variables vocabulary="CF-1.0">
+        <variable name="zosStderr" vocabulary_name="Sea Surface Height Above Geoid Standard Error" units="m">Sea Surface Height Above Geoid Standard Error</variable>
+      </variables>
+      <dataSize units="bytes">56792712</dataSize>
+      <access serviceName="GRIDFTP" urlPath="/esg_dataroot/obs4MIPs/observations/ocean/zosStderr/mon/grid/CNES/AVISO/v20110829/zosStderr_AVISO_L4_199210-201012.nc"/>
+      <access serviceName="OpenDAPServer" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zosStderr/mon/grid/CNES/AVISO/v20110829/zosStderr_AVISO_L4_199210-201012.nc"/>
+      <access serviceName="Globus" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zosStderr/mon/grid/CNES/AVISO/v20110829/zosStderr_AVISO_L4_199210-201012.nc"/>
+    </dataset>
+    <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation" name="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation">
+      <property name="aggregation_id" value="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation"/>
+      <variables vocabulary="CF-1.0">
+        <variable name="zosStderr" vocabulary_name="Sea Surface Height Above Geoid Standard Error" units="m">Sea Surface Height Above Geoid Standard Error</variable>
+      </variables>
+      <metadata inherited="true">
+        <geospatialCoverage>
+          <northsouth>
+            <start>-89.500000</start>
+            <size>179.0</size>
+            <units>degrees_north</units>
+          </northsouth>
+          <eastwest>
+            <start>0.500000</start>
+            <size>359.0</size>
+            <units>degrees_east</units>
+          </eastwest>
+        </geospatialCoverage>
+        <timeCoverage>
+          <start>1992-10-16T12:00:00</start>
+          <end>2010-12-16T12:00:00</end>
+        </timeCoverage>
+      </metadata>
+      <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation"/>
+      <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation.1" name="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation - Subset 1" serviceName="gridded" urlPath="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation.1">
+        <property name="aggregation_id" value="obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation.1"/>
+        <property name="time_delta" value="1 month"/>
+        <property name="calendar" value="standard"/>
+        <property name="start" value="1992-10-1 0:0:0.0"/>
+        <property name="time_length" value="219"/>
+        <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.zosStderr.20110829.aggregation.1"/>
+        <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+          <aggregation dimName="time" type="joinExisting">
+            <netcdf location="/esg/data/obs4MIPs/observations/ocean/zosStderr/mon/grid/CNES/AVISO/v20110829/zosStderr_AVISO_L4_199210-201012.nc" ncoords="219"/>
+          </aggregation>
+        </netcdf>
+      </dataset>
+    </dataset>
+    <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.v20110829.zos_AVISO_L4_199210-201012.nc" name="zos_AVISO_L4_199210-201012.nc" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zos/mon/grid/CNES/AVISO/v20110829/zos_AVISO_L4_199210-201012.nc" serviceName="HTTPServer">
+      <property name="file_id" value="obs4MIPs.CNES.AVISO.zos.mon.zos_AVISO_L4_199210-201012.nc"/>
+      <property name="file_version" value="1"/>
+      <property name="size" value="56792668"/>
+      <property name="tracking_id" value="5a28bcf2-f863-4a32-9340-da8ea0d3df61"/>
+      <property name="mod_time" value="2015-12-18 09:44:32"/>
+      <property name="checksum" value="2a6eac595b224cdeeb98047615b1fbcf10b266fe190d5e3a77c49e22be485952"/>
+      <property name="checksum_type" value="SHA256"/>
+      <variables vocabulary="CF-1.0">
+        <variable name="zos" vocabulary_name="sea_surface_height_above_geoid" units="m">Sea Surface Height Above Geoid</variable>
+      </variables>
+      <dataSize units="bytes">56792668</dataSize>
+      <access serviceName="GRIDFTP" urlPath="/esg_dataroot/obs4MIPs/observations/ocean/zos/mon/grid/CNES/AVISO/v20110829/zos_AVISO_L4_199210-201012.nc"/>
+      <access serviceName="OpenDAPServer" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zos/mon/grid/CNES/AVISO/v20110829/zos_AVISO_L4_199210-201012.nc"/>
+      <access serviceName="Globus" urlPath="esg_dataroot/obs4MIPs/observations/ocean/zos/mon/grid/CNES/AVISO/v20110829/zos_AVISO_L4_199210-201012.nc"/>
+    </dataset>
+    <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation" name="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation">
+      <property name="aggregation_id" value="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation"/>
+      <variables vocabulary="CF-1.0">
+        <variable name="zos" vocabulary_name="sea_surface_height_above_geoid" units="m">Sea Surface Height Above Geoid</variable>
+      </variables>
+      <metadata inherited="true">
+        <geospatialCoverage>
+          <northsouth>
+            <start>-89.500000</start>
+            <size>179.0</size>
+            <units>degrees_north</units>
+          </northsouth>
+          <eastwest>
+            <start>0.500000</start>
+            <size>359.0</size>
+            <units>degrees_east</units>
+          </eastwest>
+        </geospatialCoverage>
+        <timeCoverage>
+          <start>1992-10-16T12:00:00</start>
+          <end>2010-12-16T12:00:00</end>
+        </timeCoverage>
+      </metadata>
+      <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation"/>
+      <dataset ID="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation.1" name="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation - Subset 1" serviceName="gridded" urlPath="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation.1">
+        <property name="aggregation_id" value="obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation.1"/>
+        <property name="time_delta" value="1 month"/>
+        <property name="calendar" value="standard"/>
+        <property name="start" value="1992-10-1 0:0:0.0"/>
+        <property name="time_length" value="219"/>
+        <access dataFormat="NetCDF" serviceName="LASatJPL" urlPath="?catid=0C5410C250379F2D139F978F7BF48BB9_ns_obs4MIPs.CNES.AVISO.zos.mon.zos.20110829.aggregation.1"/>
+        <netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+          <aggregation dimName="time" type="joinExisting">
+            <netcdf location="/esg/data/obs4MIPs/observations/ocean/zos/mon/grid/CNES/AVISO/v20110829/zos_AVISO_L4_199210-201012.nc" ncoords="219"/>
+          </aggregation>
+        </netcdf>
+      </dataset>
+    </dataset>
+  </dataset>
+</catalog>
