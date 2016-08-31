@@ -26,7 +26,7 @@ COPY context.xml /usr/local/tomcat/conf/context.xml
 # necessary to locate /esg/config/esgf.properties
 ENV ESGF_HOME /esg
 # ESGF configuration
-COPY esgf-config/   /esg/config/
+COPY esgf-config/ /esg/config/
 
 VOLUME /esg/config
 
