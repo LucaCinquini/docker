@@ -1,7 +1,6 @@
 #!/bin/bash
-# script containing env variables for TDS context
+# script containing env variables for starting ESGF Tomcat
 
-# TDS + ORP
-#export JAVA_OPTS="-Dtds.content.root.path=/esg/content -Djavax.net.debug=ssl"
-export JAVA_OPTS="-Dtds.content.root.path=/esg/content -Djavax.net.debug=record,keygen,handshake"
-export CATALINA_OPTS="-Xmx2048m -server -Xms1024m -XX:MaxPermSize=512m  -Dsun.security.ssl.allowUnsafeRenegotiation=false -Djavax.net.ssl.trustStore='/esg/config/tomcat/esg-truststore.ts' -Djavax.net.ssl.trustStorePassword='changeit'"
+export JAVA_OPTS="-Dtds.content.root.path=/esg/content"
+#export JAVA_OPTS="-Djavax.net.debug=ssl -Dtds.content.root.path=/esg/content"
+export CATALINA_OPTS="-Xmx2048m -server -Xms1024m -XX:MaxPermSize=512m -Dsun.security.ssl.allowUnsafeRenegotiation=false -Djavax.net.ssl.trustStore='/esg/config/tomcat/esg-truststore.ts' -Djavax.net.ssl.trustStorePassword='changeit'"

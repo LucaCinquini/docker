@@ -12,21 +12,21 @@ networks:
       name: mynetwork
 
 services:
-  esgf_tomcat_app:
+  esgf_data_node_app:
     expose:
       - "8080"
       - "8443"
     ports:
       - "8080:8080"
       - "8443:8443"
-    image: esgfhub/esgf-tomcat
-    container_name: esgf_tomcat
+    image: esgfhub/esgf-data-node
+    container_name: esgf-data-node
     networks:
       default: {}
       mynet:
         aliases:
           - my.esgf.node
-    entrypoint: ["tail", "-f", "/dev/null"]
+    #entrypoint: ["tail", "-f", "/dev/null"]
 
   esgf_solr_app:
     expose:
