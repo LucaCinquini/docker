@@ -29,7 +29,6 @@ services:
           - my.esgf.node
     volumes:
       - $PWD/esg/config:/esg/config
-    #entrypoint: ["tail", "-f", "/dev/null"]
 
   esgf_solr_app:
     expose:
@@ -49,10 +48,12 @@ services:
       - "8080"
       - "8443"
     ports:
-      - "8080:8080"
-      - "8443:8443"
+      - "8081:8080"
+      - "8444:8443"
     links:
       - esgf_solr_app
+    volumes:
+      - $PWD/esg/config:/esg/config
     container_name: esgf_search
 
   esgf_postgres_app:
@@ -63,35 +64,35 @@ services:
        - "5432:5432"
      container_name: esgf_postgres
 
-  esgf_cog_app:
-     image: esgfhub/esgf-cog
-     expose:
-       - "8000"
-     ports:
-       - "8000:8000"
-     links:
-       - esgf_postgres_app
-       - esgf_search_app
-     volumes:
-      - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
-     command: $DOCKER_IP true false
-     container_name: esgf_cog
+  #esgf_cog_app:
+  #   image: esgfhub/esgf-cog
+  #   expose:
+  #     - "8000"
+  #   ports:
+  #     - "8000:8000"
+  #   links:
+  #     - esgf_postgres_app
+  #     - esgf_search_app
+  #   volumes:
+  #    - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
+  #   command: $DOCKER_IP true false
+  #   container_name: esgf_cog
 
   esgf_httpd_app:
    volumes:
      - $PWD/httpd/certs/:/etc/certs/
      - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
      - $PWD/httpd/esgf-docker-entrypoint.sh:/esgf-docker-entrypoint.sh
-   volumes_from:
-     - esgf_cog_app
+   #volumes_from:
+   #  - esgf_cog_app
    ports:
      - "80:80"
      - "443:443"
    image: esgfhub/esgf-httpd
-   links:
-     - esgf_solr_app
-     - esgf_search_app
-     - esgf_cog_app
-     - esgf_postgres_app
+   #links:
+   #  - esgf_solr_app
+   #  - esgf_search_app
+   #  - esgf_cog_app
+   #  - esgf_postgres_app
    container_name: esgf_httpd
    entrypoint: /esgf-docker-entrypoint.sh
