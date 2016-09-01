@@ -12,6 +12,7 @@ networks:
       name: mynetwork
 
 services:
+
   esgf_data_node_app:
     expose:
       - "8080"
@@ -26,6 +27,8 @@ services:
       mynet:
         aliases:
           - my.esgf.node
+    volumes:
+      - $PWD/esg/config:/esg/config
     #entrypoint: ["tail", "-f", "/dev/null"]
 
   esgf_solr_app:

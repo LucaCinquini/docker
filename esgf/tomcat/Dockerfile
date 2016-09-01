@@ -21,23 +21,13 @@ ENV CATALINA_HOME /usr/local/tomcat
 RUN cd /usr/local/tomcat/webapps && \
     rm -rf docs examples host-manager manager
 
-# override server.xml
-COPY server.xml /usr/local/tomcat/conf/server.xml
+# copy custom configuration
+# server.xml: includes keystore, truststore
+# context.xml: increases the Tomcat cache to avoid flood of warning messages
+COPY conf/ /usr/local/tomcat/conf/
 
-# customized copy of context.xml that increases the Tomcat cache to avoid flood of warning messages
-COPY context.xml /usr/local/tomcat/conf/context.xml
-
-# necessary to locate /esg/config/esgf.properties
-ENV ESGF_HOME /esg
-
-# ESGF configuration
-COPY esgf-config/ /esg/config/
-
-# ESGF content
-RUN mkdir /esg/content
-
-# Java truststore
-# COPY esgf-config/tomcat/esg-truststore.ts /usr/java/latest/jre/lib/security/jssecacerts
+# custom env variables for starting Tomcat
+COPY bin/setenv.sh $CATALINA_HOME/bin
 
 VOLUME /esg/config
 VOLUME /esg/content
@@ -45,8 +35,5 @@ VOLUME /esg/content
 EXPOSE 8080
 EXPOSE 8009
 EXPOSE 8443
-
-# custom env variables for starting Tomcat
-COPY setenv.sh $CATALINA_HOME/bin
 
 ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]

@@ -64,3 +64,12 @@ RUN easy_install pip
 RUN pip install virtualenv
 RUN pip install wheel
 RUN pip install --use-wheel Pillow==${PILLOW_VERSION}
+
+# common directories
+RUN mkdir -p /esg/config
+RUN mkdir -p /esg/content
+
+# common environment variables
+# necessary to locate /esg/config/esgf.properties
+ENV ESGF_HOME /esg
+
