@@ -11,11 +11,15 @@ ps aux
 
 # create super user
 su --login - postgres --command "psql -c \"CREATE USER dbsuper with CREATEROLE superuser PASSWORD 'changeit';\""
+# create 'esgcet' user
+su --login - postgres --command "psql -c \"CREATE USER esgcet PASSWORD 'changeit';\""
 # create CoG database
 su --login - postgres --command "psql -c \"CREATE DATABASE cogdb;\""
 # create ESGF database
 su --login - postgres --command "psql -c \"CREATE DATABASE esgcet;\""
-# load ESGF security schema
+# load ESGF schemas
+su --login - postgres --command "psql esgcet < /tmp/esgf_esgcet.sql"
+su --login - postgres --command "psql esgcet < /tmp/esgf_node_manager.sql"
 su --login - postgres --command "psql esgcet < /tmp/esgf_security.sql"
 # list database users
 su --login - postgres --command "psql -c \"\du;\""

@@ -13,6 +13,10 @@ ADD ./postgresql-setup /usr/bin/postgresql-setup
 ADD ./postgres_esgf.sh /postgres_esgf.sh
 ADD ./supervisord.conf /etc/supervisord.conf
 ADD ./start_postgres.sh /start_postgres.sh
+
+# ESGF sql schemas
+ADD ./esgf_esgcet.sql /tmp/esgf_esgcet.sql
+ADD ./esgf_node_manager.sql /tmp/esgf_node_manager.sql
 ADD ./esgf_security.sql /tmp/esgf_security.sql
 
 RUN chmod +x /usr/bin/postgresql-setup
@@ -27,6 +31,7 @@ RUN chown -v postgres.postgres /var/lib/pgsql/data/postgresql.conf
 
 RUN echo "host    all             all             0.0.0.0/0               md5" >> /var/lib/pgsql/data/pg_hba.conf
 
+# load ESGF schemas into postgres database
 RUN /postgres_esgf.sh
 
 EXPOSE 5432
