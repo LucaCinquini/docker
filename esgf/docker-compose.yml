@@ -1,7 +1,8 @@
 # required env variables:
 # SOLR_DATA_DIR : points to Solr index directory
 # 	example: export SOLR_DATA_DIR=/Users/cinquini/data/solr-index
-# DOCKER_IP: IP address of Docker host
+# DOCKER_IP: HostName or IP address for apache httpd front-end server
+#       example: export DOCKER_IP=my.esgf.node
 #       example: export DOCKER_IP=`docker-machine ip`
 
 version: '2'
@@ -64,27 +65,30 @@ services:
        - "5432:5432"
      container_name: esgf_postgres
 
-  #esgf_cog_app:
-  #   image: esgfhub/esgf-cog
-  #   expose:
-  #     - "8000"
-  #   ports:
-  #     - "8000:8000"
-  #   links:
-  #     - esgf_postgres_app
-  #     - esgf_search_app
-  #   volumes:
-  #    - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
-  #   command: $DOCKER_IP true false
-  #   container_name: esgf_cog
+  esgf_cog_app:
+     image: esgfhub/esgf-cog
+     expose:
+       - "8000"
+     ports:
+       - "8000:8000"
+     links:
+       - esgf_postgres_app
+       - esgf_search_app
+     volumes:
+       - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
+     command: $DOCKER_IP true false
+     container_name: esgf_cog
 
   esgf_httpd_app:
    volumes:
      - $PWD/httpd/certs/:/etc/certs/
      - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+     - $PWD/grid-security/certificates:/etc/grid-security/certificates
      - $PWD/httpd/esgf-docker-entrypoint.sh:/esgf-docker-entrypoint.sh
-   #volumes_from:
-   #  - esgf_cog_app
+   environment:
+     - SSL_CERT_DIR:/etc/grid-security/certificates
+   volumes_from:
+     - esgf_cog_app
    ports:
      - "80:80"
      - "443:443"
