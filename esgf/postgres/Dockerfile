@@ -14,10 +14,11 @@ ADD ./postgres_esgf.sh /postgres_esgf.sh
 ADD ./supervisord.conf /etc/supervisord.conf
 ADD ./start_postgres.sh /start_postgres.sh
 
-# ESGF sql schemas
+# ESGF sql schemas and data
 ADD ./esgf_esgcet.sql /tmp/esgf_esgcet.sql
 ADD ./esgf_node_manager.sql /tmp/esgf_node_manager.sql
 ADD ./esgf_security.sql /tmp/esgf_security.sql
+ADD ./esgf_security_data.sql /tmp/esgf_security_data.sql
 
 RUN chmod +x /usr/bin/postgresql-setup
 RUN chmod +x /start_postgres.sh
