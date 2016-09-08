@@ -1,0 +1,1 @@
+Mature_Name	Sample_1	Sample_2	Sample_3	Sample_4	Sample_5	Sample_6	Sample_7	Sample_8	Sample_9	Sample_10	Sample_11	Sample_12	Sample_13	Sample_14	Sample_15miR-375	28.42	29.58	27.17	28.68	29.19	28.69	27.00	29.42	30.25	28.36	30.51	30.53	28.69	28.79	26.18miR-451a	23.62	22.90	29.30	24.47	22.11	24.65	29.39	22.77	26.80	23.54	26.55	26.61	24.25	23.77	29.00
