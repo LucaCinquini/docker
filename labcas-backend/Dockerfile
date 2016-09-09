@@ -87,7 +87,7 @@ RUN mkdir -p $LABCAS_SRC
 RUN cd $LABCAS_SRC && \
        git clone https://github.com/EDRN/labcas-backend.git && \
        cd labcas-backend && \
-       git checkout  -b devel origin/devel
+       git checkout -b devel origin/devel
        #git checkout $LABCAS_BACKEND_TAG
 
 # install all back-end services to $LABCAS_HOME
