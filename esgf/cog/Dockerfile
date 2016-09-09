@@ -5,7 +5,7 @@ FROM esgfhub/esgf-node
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # choose CoG version
-ENV COG_TAG=v3.7.RC5
+ENV COG_TAG=v3.7.RC11
 
 # setup CoG environment
 ENV COG_DIR=/usr/local/cog
