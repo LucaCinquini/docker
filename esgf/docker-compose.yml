@@ -14,24 +14,22 @@ networks:
 
 services:
 
-  #esgf_data_node_app:
-  #  expose:
-  #    - "8080"
-  #    - "8443"
-  #  ports:
-  #    - "8080:8080"
-  #    - "8443:8443"
-  #  image: esgfhub/esgf-data-node
-  #  container_name: esgf-data-node
-  #  networks:
-  #    default: {}
-  #    mynet:
-  #      aliases:
-  #        - my.esgf.node
-  #  volumes:
-  #    - $PWD/esg/config:/esg/config
-  #  depends_on:
-  #    - esgf_postgres_app
+  esgf_data_node_app:
+    expose:
+      - "8080"
+      - "8443"
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    image: esgfhub/esgf-data-node
+    container_name: esgf-data-node
+    networks:
+      default: {}
+      mynet: {}
+    volumes:
+      - $PWD/esg/config:/esg/config
+    depends_on:
+      - esgf_postgres_app
 
   esgf_idp_app:
     expose:
