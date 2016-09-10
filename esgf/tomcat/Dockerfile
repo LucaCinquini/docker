@@ -24,7 +24,7 @@ RUN cd /usr/local/tomcat/webapps && \
 # copy custom configuration
 # server.xml: includes keystore, truststore
 # context.xml: increases the Tomcat cache to avoid flood of warning messages
-COPY conf/  /usr/local/tomcat/conf/
+COPY conf/ /usr/local/tomcat/conf/
 
 # custom env variables for starting Tomcat
 COPY bin/setenv.sh $CATALINA_HOME/bin
