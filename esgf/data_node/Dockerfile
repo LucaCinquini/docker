@@ -33,7 +33,7 @@ COPY thredds/esgf-applicationContext.xml /usr/local/tomcat/webapps/thredds/WEB-I
 COPY thredds/esgf-web.xml /usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
 
 # TDS jars necessary to support ESGF security filters
-COPY  thredds/esgf-jars/*  $CATALINA_HOME/webapps/thredds/WEB-INF/lib/
+COPY thredds/esgf-jars/*  $CATALINA_HOME/webapps/thredds/WEB-INF/lib/
 
 # TDS customized logging (uses DEBUG)
 COPY thredds/esgf-log4j2.xml /usr/local/tomcat/webapps/thredds/WEB-INF/classes/log4j2.xml
