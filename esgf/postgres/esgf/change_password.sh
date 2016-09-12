@@ -4,8 +4,6 @@ if [ "$ESGF_PASSWORD" = "" ]
 then
    echo "Env variable ESGF_PASSWORD is not set, exiting"
    exit -1
-else
-   echo "Env variable ESGF_PASSWORD is set"
 fi
 
 
