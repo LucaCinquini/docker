@@ -41,5 +41,5 @@ COPY thredds/esgf-log4j2.xml /usr/local/tomcat/webapps/thredds/WEB-INF/classes/l
 # TDS test ESGF catalogs
 # COPY esgf-content/thredds/ /esg/content/thredds/
 
-ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
+#ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]

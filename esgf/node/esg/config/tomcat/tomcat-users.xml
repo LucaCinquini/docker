@@ -2,6 +2,6 @@
 <tomcat-users>
   <role rolename="tdsConfig"/>
   <role rolename="manager"/>
-  <role rolename="tdrAdmin"/>
-  <user username="dnode_user" password="6caa366dd473b4e82283a28691a463b89a57910e9129c1e56f73e12696a61e30$1$a92f1e8a85f1c751f97fb2781bdd340b018c9731" roles="tdrAdmin,tdsConfig"/>
+  <user username="dnode_user" 
+        password="dbb9d94fa21c1c673908f2ce5f0787f9a1f7e07ba00b9025ea2923277962e1c0$1$3f8531ee1644fc14ac5a5a88b8f358df19b02ed4" roles="tdsConfig"/>
 </tomcat-users>

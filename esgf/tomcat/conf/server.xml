@@ -119,7 +119,9 @@
       <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"/>
       -->
 
-      <Realm className="org.apache.catalina.realm.MemoryRealm" digest="SHA" pathname="/esg/config/tomcat/tomcat-users.xml"/>
+      <Realm className="org.apache.catalina.realm.MemoryRealm" pathname="/esg/config/tomcat/tomcat-users.xml">
+          <CredentialHandler className="org.apache.catalina.realm.MessageDigestCredentialHandler" algorithm="SHA" />
+      </Realm>
 
       <!-- Use the LockOutRealm to prevent attempts to guess user passwords
            via a brute-force attack 
