@@ -17,9 +17,11 @@ echo "RUNSERVER=$RUNSERVER"
 # use virtualenv
 source $COG_DIR/venv/bin/activate
 
-# use ESGF settings ?
+# initialize COG settings with ESGF settings
 if [ -f "${COG_CONFIG_DIR}/esgf-cog_settings.cfg" ]; then
-   cp ${COG_CONFIG_DIR}/esgf-cog_settings.cfg ${COG_CONFIG_DIR}/cog_settings.cfg
+   if [ ! -f "${COG_CONFIG_DIR}/cog_settings.cfg" ]; then
+     cp ${COG_CONFIG_DIR}/esgf-cog_settings.cfg ${COG_CONFIG_DIR}/cog_settings.cfg
+   fi
 fi
 
 # upgrade CoG

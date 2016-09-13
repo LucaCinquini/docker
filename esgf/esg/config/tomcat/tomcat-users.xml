@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<tomcat-users>
-  <role rolename="tdsConfig"/>
-  <role rolename="manager"/>
-  <role rolename="tdrAdmin"/>
-  <user username="dnode_user" password="6caa366dd473b4e82283a28691a463b89a57910e9129c1e56f73e12696a61e30$1$a92f1e8a85f1c751f97fb2781bdd340b018c9731" roles="tdrAdmin,tdsConfig"/>
-</tomcat-users>

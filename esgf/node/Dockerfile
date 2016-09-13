@@ -66,7 +66,7 @@ RUN pip install wheel
 RUN pip install --use-wheel Pillow==${PILLOW_VERSION}
 
 # common directories
-RUN mkdir -p /esg/config
+COPY esg/config/ /esg/config/
 RUN mkdir -p /esg/content
 
 # common environment variables

@@ -5,7 +5,7 @@ FROM esgfhub/esgf-node
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
 # choose CoG version
-ENV COG_TAG=v3.7.RC11
+ENV COG_TAG=v3.7.0
 
 # setup CoG environment
 ENV COG_DIR=/usr/local/cog
@@ -20,12 +20,12 @@ ENV LD_LIBRARY_PATH=/usr/local/lib
 RUN cd $COG_DIR && \
     virtualenv venv && \
     source $COG_DIR/venv/bin/activate && \
-    git clone https://github.com/EarthSystemCoG/COG cog_install
+    git  clone https://github.com/EarthSystemCoG/COG cog_install
 
 # checkout specific tag
 RUN cd $COG_INSTALL_DIR && \
-#    git checkout -b devel origin/devel
-    git checkout $COG_TAG
+    git checkout -b devel origin/devel
+    #git checkout $COG_TAG
 
 # install CoG dependencies
 RUN cd $COG_INSTALL_DIR && \
@@ -66,6 +66,12 @@ RUN chown -R cogadmin:cogadmin $COG_DIR
 
 # expose application data (must do this AFTER chown)
 VOLUME $COG_DIR
+
+# scripts
+COPY scripts/ /usr/share/bin
+RUN chmod +x /usr/share/bin/change_cog_password.sh
+# make script available to httpd service
+VOLUME /usr/share/bin
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]

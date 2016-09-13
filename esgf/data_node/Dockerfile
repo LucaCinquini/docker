@@ -38,6 +38,10 @@ COPY thredds/esgf-jars/*  $CATALINA_HOME/webapps/thredds/WEB-INF/lib/
 # TDS customized logging (uses DEBUG)
 COPY thredds/esgf-log4j2.xml /usr/local/tomcat/webapps/thredds/WEB-INF/classes/log4j2.xml
 
+# data node scripts
+COPY scripts/ /usr/share/bin/
+RUN chmod +x /usr/share/bin/change_data_node_password.sh
+
 # TDS test ESGF catalogs
 # COPY esgf-content/thredds/ /esg/content/thredds/
 
