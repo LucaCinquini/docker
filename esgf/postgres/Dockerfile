@@ -12,18 +12,14 @@ RUN yum -y install postgresql-server postgresql postgresql-contrib supervisor; y
 ADD ./postgresql-setup.sh /usr/share/bin/postgresql-setup.sh
 ADD ./supervisord.conf /etc/supervisord.conf
 ADD ./start_postgres.sh /usr/share/bin/start_postgres.sh
-ADD ./esgf/ /usr/share/bin/
 
 # ESGF sql schemas and data
-#ADD ./esgf_esgcet.sql /tmp/esgf_esgcet.sql
-#ADD ./esgf_node_manager.sql /tmp/esgf_node_manager.sql
-#ADD ./esgf_security.sql /tmp/esgf_security.sql
-#ADD ./esgf_security_data.sql /tmp/esgf_security_data.sql
+ADD ./scripts/ /usr/share/bin/
 
 RUN chmod +x /usr/share/bin/postgresql-setup.sh
 RUN chmod +x /usr/share/bin/start_postgres.sh
 RUN chmod +x /usr/share/bin/postgres_esgf.sh
-RUN chmod +x /usr/share/bin/change_password.sh
+RUN chmod +x /usr/share/bin/change_postgres_password.sh
 
 RUN /usr/share/bin/postgresql-setup.sh initdb
 

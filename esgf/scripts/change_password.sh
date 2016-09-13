@@ -22,7 +22,10 @@ then
 fi
 
 # change password inside esgf_postgres container
-docker exec -it esgf_postgres /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/share/bin/change_password.sh"
+docker exec -it esgf_postgres /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/share/bin/change_postgres_password.sh"
+
+# change password inside esgf-data-node container
+docker exec -it esgf-data-node /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/share/bin/change_data_node_password.sh"
 
 # change password in common ESGF configuration files under $ESGF_HOME
 # FIXME: run inside container
