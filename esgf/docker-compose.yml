@@ -52,7 +52,7 @@ services:
     depends_on:
       - esgf_postgres_app
     environment:
-     - ESGF_HOME:/esg
+     - ESGF_HOME=/esg
 
   esgf_solr_app:
     expose:
@@ -113,7 +113,8 @@ services:
      - $COG_CONFIG_DIR/:/usr/local/cog/cog_config/
      - $ESGF_HOME/config/:/esg/config/
    environment:
-     - SSL_CERT_DIR:/etc/grid-security/certificates
+     - SSL_CERT_DIR=/etc/grid-security/certificates
+     - COG_CONFIG_DIR=/usr/local/cog/cog_config
    volumes_from:
      - esgf_cog_app
    ports:
