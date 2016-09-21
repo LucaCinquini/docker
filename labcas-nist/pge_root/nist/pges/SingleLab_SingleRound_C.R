@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-setwd("/Users/aam/work/Projects/EDRN/NISTmiRNA/Curated_Site_Data/Take2")
+#setwd("/Users/aam/work/Projects/EDRN/NISTmiRNA/Curated_Site_Data/Take2")
 args = commandArgs(TRUE)
 
 if (length(args)<2) {
