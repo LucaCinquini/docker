@@ -24,7 +24,7 @@ RUN cd /usr/local/tomcat/webapps/thredds && \
     rm thredds.war
 
 # TDS memory configuration
-COPY thredds/esgf-threddsConfig.xml /esg/content/thredds/threddsConfig.xml
+#COPY thredds/esgf-threddsConfig.xml /esg/content/thredds/threddsConfig.xml
 
 # TDS customized applicationContext.xml file with ESGF authorizer
 COPY thredds/esgf-applicationContext.xml /usr/local/tomcat/webapps/thredds/WEB-INF/applicationContext.xml

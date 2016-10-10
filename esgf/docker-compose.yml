@@ -3,7 +3,9 @@
 # ESGF_CONFIG : points to the root ESGF configuration directory
 #       example: export ESGF_CONFIG=/Users/cinquini/ESGF_CONFIG
 # SOLR_DATA_DIR : points to Solr index directory
-# 	example: export SOLR_DATA_DIR=/Users/cinquini/data/solr-index
+# 	example: export SOLR_DATA_DIR=/esg/solr-index
+# TDS_CONTENT_ROOT : point to root directory above TDS catalogs thredds/
+#       example: export TDS_CONTENT_ROOT=/esg/content
 # DOCKER_IP: HostName or IP address for apache httpd front-end server
 #       example: export DOCKER_IP=my.esgf.node
 #       example: export DOCKER_IP=`docker-machine ip`
@@ -31,6 +33,7 @@ services:
       mynet: {}
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
+      - $TDS_CONTENT_ROOT:/esg/content
     depends_on:
       - esgf_postgres_app
 
