@@ -1,10 +1,9 @@
 # required env variables:
-# ESGF_HOME : points to the root ESGF configuration directory
-#       example: export ESGF_HOME=/esg
+#
+# ESGF_CONFIG : points to the root ESGF configuration directory
+#       example: export ESGF_CONFIG=/Users/cinquini/ESGF_CONFIG
 # SOLR_DATA_DIR : points to Solr index directory
 # 	example: export SOLR_DATA_DIR=/Users/cinquini/data/solr-index
-# COG_CONFIG_DIR : directory containing site-specific CoG configuration
-#       example: export COG_CONFIG_DIR=/usr/local/cog/cog_config
 # DOCKER_IP: HostName or IP address for apache httpd front-end server
 #       example: export DOCKER_IP=my.esgf.node
 #       example: export DOCKER_IP=`docker-machine ip`
@@ -31,7 +30,7 @@ services:
       default: {}
       mynet: {}
     volumes:
-      - $ESGF_HOME/config/:/esg/config/
+      - $ESGF_CONFIG/esg/config/:/esg/config/
     depends_on:
       - esgf_postgres_app
 
@@ -48,7 +47,7 @@ services:
       default: {}
       mynet: {}
     volumes:
-      - $ESGF_HOME/config/:/esg/config/
+      - $ESGF_CONFIG/esg/config/:/esg/config/
     depends_on:
       - esgf_postgres_app
     environment:
@@ -77,7 +76,7 @@ services:
     depends_on:
       - esgf_solr_app
     volumes:
-      - $ESGF_HOME/config/:/esg/config/
+      - $ESGF_CONFIG/esg/config/:/esg/config/
     container_name: esgf_search
 
   esgf_postgres_app:
@@ -96,8 +95,8 @@ services:
        - "8000:8000"
      volumes:
        - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
-       - $COG_CONFIG_DIR/:/usr/local/cog/cog_config/
-       - $ESGF_HOME/config/:/esg/config/
+       - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
+       - $ESGF_CONFIG/esg/config/:/esg/config/
      command: $DOCKER_IP true false
      container_name: esgf_cog
      depends_on:
@@ -106,12 +105,12 @@ services:
 
   esgf_httpd_app:
    volumes:
-     - $PWD/httpd/certs/:/etc/certs/
-     - $PWD/httpd/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
-     - $PWD/grid-security/certificates:/etc/grid-security/certificates
+     - $ESGF_CONFIG/httpd/certs/:/etc/certs/
+     - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+     - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
+     - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
+     - $ESGF_CONFIG/esg/config/:/esg/config/
      - $PWD/httpd/esgf-docker-entrypoint.sh:/esgf-docker-entrypoint.sh
-     - $COG_CONFIG_DIR/:/usr/local/cog/cog_config/
-     - $ESGF_HOME/config/:/esg/config/
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
