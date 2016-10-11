@@ -40,9 +40,14 @@ cat hostcert.pem >> esgf-ca-bundle.crt
 
 # create certificate hash
 # (pointed to by SSL_CERT_DIR, needed by coG for openid authentication)
+# IMPORTANT: hashing algorithm MUST be run inside container
 echo ""
 echo "Generating certificate hash"
-cert_hash=`openssl x509 -noout -hash -in hostcert.pem`
+
+cert_hash=`docker run -ti --rm -v $ESGF_CONFIG/esgfcerts/:/tmp/certs/ esgfhub/esgf-node openssl x509 -noout -hash -in /tmp/certs/hostcert.pem`
+#cert_hash=`openssl x509 -noout -hash -in hostcert.pem`
+# must remove the trailing white space i.e. end of line
+cert_hash=${cert_hash%%[[:space:]]}
 cp hostcert.pem ${cert_hash}.0
 
 # import self-signed certificate into ESGF truststore
