@@ -6,9 +6,9 @@
 # 	example: export SOLR_DATA_DIR=/esg/solr-index
 # TDS_CONTENT_ROOT : point to root directory above TDS catalogs thredds/
 #       example: export TDS_CONTENT_ROOT=/esg/content
-# DOCKER_IP: HostName or IP address for apache httpd front-end server
-#       example: export DOCKER_IP=my.esgf.node
-#       example: export DOCKER_IP=`docker-machine ip`
+# ESGF_HOSTNAME: HostName or IP address for apache httpd front-end server
+#       example: export ESGF_HOSTNAME=my.esgf.node
+#       example: export ESGF_HOSTNAME=`docker-machine ip`
 
 version: '2'
 
@@ -34,6 +34,8 @@ services:
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     #  - $TDS_CONTENT_ROOT:/esg/content
+    environment:
+     - ESGF_HOSTNAME
     depends_on:
       - esgf_postgres_app
 

@@ -73,6 +73,6 @@ RUN chmod +x /usr/share/bin/change_cog_password.sh
 # make script available to httpd service
 VOLUME /usr/share/bin
 
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["localhost", "false", "true"]
