@@ -33,7 +33,7 @@ services:
       mynet: {}
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
-      - $TDS_CONTENT_ROOT:/esg/content
+    #  - $TDS_CONTENT_ROOT:/esg/content
     depends_on:
       - esgf_postgres_app
 
