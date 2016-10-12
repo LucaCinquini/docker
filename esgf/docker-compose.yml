@@ -99,10 +99,10 @@ services:
      ports:
        - "8000:8000"
      volumes:
-       - $PWD/cog/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
+       #- $ESGF_CONFIG/cog/cog_config/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
        - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
        - $ESGF_CONFIG/esg/config/:/esg/config/
-     command: $DOCKER_IP true false
+     command: $ESGF_HOSTNAME true false
      container_name: esgf_cog
      depends_on:
        - esgf_postgres_app
@@ -132,5 +132,5 @@ services:
      default: {}
      mynet:
        aliases:
-         - my.esgf.node
+         - esgf.data.node
 
