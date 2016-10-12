@@ -14,6 +14,7 @@ echo "Changing hostname to: $hostname"
 # change common ESGF configuration files
 sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/esg/config/esgf.properties
 sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/esg/config/esgf_idp_static.xml
+sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/esg/config/esgf_shards_static.xml
 
 # change apache httpd configuration
 sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/httpd/conf/esgf-httpd.conf

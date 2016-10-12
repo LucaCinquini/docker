@@ -6,38 +6,6 @@
 <shards xmlns="http://www.esgf.org/whitelist">
 
     <!-- local ESGF node -->
-    <value>localhost/solr</value>
-    <value>localhost:8982/solr</value>
-
-    <!-- Africa -->
-
-    <!-- America -->
-
-    <!-- pcmdi.llnl.gov -->
-    <value>localhost:8990/solr</value>
-
-    <!-- esgdata.gfdl.noaa.gov -->
-    <value>localhost:8985/solr</value>
-
-    <!-- Asia -->
-
-    <!-- Australia -->
-
-    <!-- Europe -->
-
-    <!-- esgf-data.dkrz.de -->
-    <value>localhost:8986/solr</value>
-  
-    <!-- esg-dn1.nsc.liu.se -->
-    <value>localhost:8987/solr</value>
-
-    <!-- esgf-node.ipsl.upmc.fr -->
-    <value>localhost:8988/solr</value>
-
-    <!-- esgf-index1.ceda.ac.uk -->
-    <value>localhost:8989/solr</value>
-
-    <!-- esgf.nccs.nasa.gov -->
-    <value>localhost:8991/solr</value>
+    <value>my.esgf.node/solr</value>
 
 </shards>

@@ -70,6 +70,9 @@ services:
     container_name: esgf_solr
     volumes:
      - $SOLR_DATA_DIR:/esg/solr-index
+    networks:
+      default: {}
+      mynet: {}
 
   esgf_search_app:
     image: esgfhub/esgf-search
@@ -84,6 +87,9 @@ services:
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     container_name: esgf_search
+    networks:
+      default: {}
+      mynet: {}
 
   esgf_postgres_app:
      image: esgfhub/esgf-postgres
