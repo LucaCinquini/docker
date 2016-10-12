@@ -132,5 +132,4 @@ services:
      default: {}
      mynet:
        aliases:
-         - esgf.data.node
-
+         - "${ESGF_HOSTNAME}"
