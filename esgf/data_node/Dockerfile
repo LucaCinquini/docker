@@ -45,5 +45,8 @@ RUN chmod +x /usr/share/bin/change_data_node_password.sh
 # TDS test ESGF catalogs
 # COPY esgf-content/thredds/ /esg/content/thredds/
 
-ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
+# start container
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+#ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
 #ENTRYPOINT ["tail", "-f", "/dev/null"]

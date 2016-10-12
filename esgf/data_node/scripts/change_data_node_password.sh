@@ -1,9 +1,9 @@
 #!/bin/bash
 # script to change the ESGF password used for TDS re-initialization
 
-if [ "${ESGF_PASSWORD}" = "" ] || [ "${ESGF_HOME}" = "" ] || [ "${CATALINA_HOME}" = "" ];
+if [ "${ESGF_PASSWORD}" = "" ] || [ "${ESGF_CONFIG}" = "" ] || [ "${CATALINA_HOME}" = "" ];
 then
-   echo "All env variables: ESGF_PASSWORD, ESGF_HOME, CATALINA_HOME must be set  "
+   echo "All env variables: ESGF_PASSWORD, ESGF_CONFIG, CATALINA_HOME must be set  "
    exit -1
 fi
 
@@ -12,7 +12,7 @@ password_hash=$($CATALINA_HOME/bin/digest.sh -a SHA ${ESGF_PASSWORD} | cut -d ":
 echo "Setting digested password=$password_hash"
 
 # replace digested password in tomcat-users.xml
-sed -i -- 's/password=\".*\"/password=\"'"${password_hash}"'\"/g' $ESGF_HOME/config/tomcat/tomcat-users.xml
+sed -i -- 's/password=\"[^\"]*\"/password=\"'"${password_hash}"'\"/g' $ESGF_CONFIG/esg/config/tomcat/tomcat-users.xml
 
 # replace clear-text password in esg.ini
 # TO DO

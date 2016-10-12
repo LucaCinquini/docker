@@ -3,16 +3,16 @@
 # the new password is obtained from the env variable ESGF_PASSWORD
 # most password changes are executed directly inside each container
 
-if [ "${ESGF_PASSWORD}" = "" ] || [ "${ESGF_HOME}" = "" ];
+if [ "${ESGF_PASSWORD}" = "" ] || [ "${ESGF_CONFIG}" = "" ];
 then
-   echo "All env variables: ESGF_PASSWORD, ESGF_HOME must be set  "
+   echo "All env variables: ESGF_PASSWORD, ESGF_CONFIG must be set  "
    exit -1
 fi
 
-# change password in common ESGF configuration files under $ESGF_HOME
-echo ${ESGF_PASSWORD} > ${ESGF_HOME}/config/.esg_pg_pass
-echo ${ESGF_PASSWORD} > ${ESGF_HOME}/config/.esgf_pass
-sed -i -- 's/db.password=.*/db.password='"${ESGF_PASSWORD}"'/g' ${ESGF_HOME}/config/esgf.properties
+# change password in common ESGF configuration files under $ESGF_CONFIG/esg/config
+echo ${ESGF_PASSWORD} > ${ESGF_CONFIG}/esg/config/.esg_pg_pass
+echo ${ESGF_PASSWORD} > ${ESGF_CONFIG}/esg/config/.esgf_pass
+sed -i -- 's/db.password=.*/db.password='"${ESGF_PASSWORD}"'/g' ${ESGF_CONFIG}/esg/config/esgf.properties
 
 # must first change cog password inside esgf_httpd container
 # before the postgres password changes

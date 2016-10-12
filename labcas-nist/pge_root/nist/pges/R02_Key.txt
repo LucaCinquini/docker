@@ -1,0 +1,1 @@
+Sample	Tissue	ReplicateSample_1	Brain	Rep1Sample_2	Placenta	Rep1Sample_3	Brain	Rep2Sample_4	Liver	Rep1Sample_5	Brain	Rep3Sample_6	Liver	Rep2Sample_7	Placenta	Rep2Sample_8	Liver	Rep3Sample_9	Placenta	Rep3

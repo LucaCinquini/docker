@@ -2,9 +2,9 @@
 
 # command line arguments
 
-# DOCKER_IP=192.168.99.100
-export DOCKER_IP=$1
-echo "DOCKER_IP=$DOCKER_IP"
+# ESGF_HOSTNAME=.....
+export ESGF_HOSTNAME=$1
+echo "ESGF_HOSTNAME=$ESGF_HOSTNAME"
 
 # esgf_flag=false/true
 export ESGF_FLAG=$2
@@ -29,8 +29,8 @@ cd $COG_INSTALL_DIR
 python setup.py -q setup_cog --esgf=$ESGF_FLAG
 
 # customize CoG settings
-echo "Using DOCKER_IP=$DOCKER_IP"
-sed -i 's/ALLOWED_HOSTS = .*/ALLOWED_HOSTS = '"${DOCKER_IP}"'/g' $COG_CONFIG_DIR/cog_settings.cfg
+echo "Using ESGF_HOSTNAME=$ESGF_HOSTNAME"
+sed -i 's/ALLOWED_HOSTS = .*/ALLOWED_HOSTS = '"${ESGF_HOSTNAME}"'/g' $COG_CONFIG_DIR/cog_settings.cfg
 
 # PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
 sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
