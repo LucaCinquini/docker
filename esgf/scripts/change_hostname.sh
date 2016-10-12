@@ -22,3 +22,5 @@ sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/httpd/conf/esgf-http
 sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/esgf-cog_settings.cfg
 #sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
 
+# change TDS access control filters
+sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml
