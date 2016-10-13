@@ -1,5 +1,5 @@
 # ESGF node with Tomcat configured for ESGF services:
-# o ESGF configuration files located in /esg/config/tomcat
+# o Tomcat keystore, truststore files located in /esg/config/tomcat
 # o startup with ESGF specific env variables defined in bin/setenv.sh
 
 FROM esgfhub/esgf-node
