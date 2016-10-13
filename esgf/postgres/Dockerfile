@@ -14,7 +14,7 @@ ADD ./scripts/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/postgresql-setup.sh
 RUN chmod +x /usr/local/bin/start_postgres.sh
 RUN chmod +x /usr/local/bin/postgres_esgf.sh
-RUN chmod +x /usr/local/bin/change_postgres_password.sh
+RUN chmod +x /usr/local/bin/change_password.sh
 
 # ESGF sql schemas and data
 ADD ./sqldata/ /usr/local/bin/
