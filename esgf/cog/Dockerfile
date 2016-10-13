@@ -1,4 +1,5 @@
 # ESGF node with CoG web application
+# When running a container, must have $ESGF_HOSTNAME ebv set,
 
 FROM esgfhub/esgf-node
 
@@ -22,7 +23,7 @@ RUN cd $COG_DIR && \
     source $COG_DIR/venv/bin/activate && \
     git  clone https://github.com/EarthSystemCoG/COG cog_install
 
-# checkout specific tag
+# checkout specific tag or branch
 RUN cd $COG_INSTALL_DIR && \
     git checkout -b devel origin/devel
     #git checkout $COG_TAG
@@ -68,11 +69,10 @@ RUN chown -R cogadmin:cogadmin $COG_DIR
 VOLUME $COG_DIR
 
 # scripts
-COPY scripts/ /usr/share/bin
-RUN chmod +x /usr/share/bin/change_cog_password.sh
+COPY scripts/ /usr/local/bin/
+RUN chmod +x /usr/local/bin/change_cog_password.sh
 # make script available to httpd service
-VOLUME /usr/share/bin
+VOLUME /usr/local/bin
 
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["localhost", "false", "true"]
+CMD ["false", "true"]

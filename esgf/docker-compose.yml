@@ -99,21 +99,20 @@ services:
        - "5432:5432"
      container_name: postgres
 
-  esgf_cog_app:
+  esgf-cog:
      image: esgfhub/esgf-cog
      expose:
        - "8000"
      ports:
        - "8000:8000"
      volumes:
-       #- $ESGF_CONFIG/cog/cog_config/esgf-cog_settings.cfg:/usr/local/cog/cog_config/esgf-cog_settings.cfg
        - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
        - $ESGF_CONFIG/esg/config/:/esg/config/
-     command: $ESGF_HOSTNAME true false
-     container_name: esgf_cog
+     # FIXME
+     command: $ESGF_HOSTNAME true true
+     container_name: cog
      depends_on:
        - esgf-postgres
-     #  - esgf_search_app
 
   esgf_httpd_app:
    volumes:
@@ -127,7 +126,7 @@ services:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
    volumes_from:
-     - esgf_cog_app
+     - esgf-cog
    ports:
      - "80:80"
      - "443:443"
