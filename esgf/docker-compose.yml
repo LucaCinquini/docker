@@ -40,7 +40,7 @@ services:
     depends_on:
       - esgf-postgres
 
-  esgf_idp_app:
+  esgf-idp:
     expose:
       - "8080"
       - "8443"
@@ -48,7 +48,7 @@ services:
       - "8082:8080"
       - "8445:8443"
     image: esgfhub/esgf-idp
-    container_name: esgf-idp
+    container_name: idp
     networks:
       default: {}
       mynet: {}

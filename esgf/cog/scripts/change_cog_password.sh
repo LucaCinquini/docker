@@ -17,4 +17,4 @@ python manage.py change_password "https://${ESGF_HOSTNAME}/esgf-idp/openid/rootA
 
 # then change password to access the postgres databases in CoG settings file
 sed -i -- 's/DATABASE_PASSWORD = .*/DATABASE_PASSWORD = '"${ESGF_PASSWORD}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
-sed -i -- 's/dbsuper:.*@esgf_postgres_app/dbsuper:'"${ESGF_PASSWORD}"'@esgf_postgres_app/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
+sed -i -- 's/dbsuper:.*@esgf-postgres/dbsuper:'"${ESGF_PASSWORD}"'@esgf-postgres/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
