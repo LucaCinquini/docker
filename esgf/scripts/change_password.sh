@@ -16,10 +16,10 @@ sed -i -- 's/db.password=.*/db.password='"${ESGF_PASSWORD}"'/g' ${ESGF_CONFIG}/e
 
 # must first change cog password inside esgf_httpd container
 # before the postgres password changes
-docker exec -it esgf_httpd /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/share/bin/change_cog_password.sh"
+docker exec -it esgf_httpd /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/local/bin/change_cog_password.sh"
 
 # change password inside esgf_postgres container
-docker exec -it esgf_postgres /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/share/bin/change_postgres_password.sh"
+docker exec -it esgf_postgres /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/local/bin/change_password.sh"
 
 # change password inside esgf-data-node container
-docker exec -it esgf-data-node /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/share/bin/change_data_node_password.sh"
+docker exec -it esgf-data-node /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/local/bin/change_data_node_password.sh"

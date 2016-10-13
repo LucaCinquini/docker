@@ -41,4 +41,5 @@ RUN chmod 0600 /root/.pgpass
 
 EXPOSE 5432
 
-CMD ["/bin/bash", "/usr/local/bin/start_postgres.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+#CMD ["/bin/bash", "/usr/local/bin/start_postgres.sh"]
