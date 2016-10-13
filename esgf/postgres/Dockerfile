@@ -1,4 +1,4 @@
-# ESGF node with postgres
+# ESGF node with postgres database
 
 FROM esgfhub/esgf-node
 
@@ -9,28 +9,28 @@ RUN yum -y update; yum clean all
 RUN yum -y install epel-release; yum clean all
 RUN yum -y install postgresql-server postgresql postgresql-contrib supervisor; yum clean all
 
-ADD ./postgresql-setup.sh /usr/share/bin/postgresql-setup.sh
-ADD ./supervisord.conf /etc/supervisord.conf
-ADD ./start_postgres.sh /usr/share/bin/start_postgres.sh
+ADD ./scripts/postgresql-setup.sh /usr/local/bin/postgresql-setup.sh
+ADD ./scripts/supervisord.conf /etc/supervisord.conf
+ADD ./scripts/start_postgres.sh /usr/local/bin/start_postgres.sh
 
 # ESGF sql schemas and data
-ADD ./scripts/ /usr/share/bin/
+ADD ./scripts/ /usr/local/bin/
 
-RUN chmod +x /usr/share/bin/postgresql-setup.sh
-RUN chmod +x /usr/share/bin/start_postgres.sh
-RUN chmod +x /usr/share/bin/postgres_esgf.sh
-RUN chmod +x /usr/share/bin/change_postgres_password.sh
+RUN chmod +x /usr/local/bin/postgresql-setup.sh
+RUN chmod +x /usr/local/bin/start_postgres.sh
+RUN chmod +x /usr/local/bin/postgres_esgf.sh
+RUN chmod +x /usr/local/bin/change_postgres_password.sh
 
-RUN /usr/share/bin/postgresql-setup.sh initdb
+RUN /usr/local/bin/postgresql-setup.sh initdb
 
-ADD ./postgresql.conf /var/lib/pgsql/data/postgresql.conf
+ADD ./scripts/postgresql.conf /var/lib/pgsql/data/postgresql.conf
 
 RUN chown -v postgres.postgres /var/lib/pgsql/data/postgresql.conf
 
 RUN echo "host    all             all             0.0.0.0/0               md5" >> /var/lib/pgsql/data/pg_hba.conf
 
 # load ESGF schemas into postgres database
-RUN /usr/share/bin/postgres_esgf.sh
+RUN /usr/local/bin/postgres_esgf.sh
 
 EXPOSE 5432
 
@@ -52,4 +52,4 @@ RUN chmod 0600 /root/.pgpass
 #RUN echo 'db.port=5432' >> /esg/config/esgf.properties
 #RUN echo 'changeit' >> /esg/config/.esgf_pass
 
-CMD ["/bin/bash", "/usr/share/bin/start_postgres.sh"]
+CMD ["/bin/bash", "/usr/local/bin/start_postgres.sh"]
