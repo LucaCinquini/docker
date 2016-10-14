@@ -23,12 +23,13 @@ RUN cd /usr/local/tomcat/webapps && \
 # server.xml: includes keystore, truststore
 # context.xml: increases the Tomcat cache to avoid flood of warning messages
 COPY conf/ /usr/local/tomcat/conf/
+COPY certs/ /esg/config/tomcat/
 
 # custom env variables for starting Tomcat
 COPY bin/setenv.sh $CATALINA_HOME/bin
 
-VOLUME /esg/config
-VOLUME /esg/content
+#VOLUME /esg/config
+#VOLUME /esg/content
 
 EXPOSE 8080
 EXPOSE 8009
