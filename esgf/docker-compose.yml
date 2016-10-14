@@ -109,7 +109,7 @@ services:
        - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
        - $ESGF_CONFIG/esg/config/:/esg/config/
      # FIXME
-     command: $ESGF_HOSTNAME true true
+     command: $ESGF_HOSTNAME true false
      container_name: cog
      depends_on:
        - esgf-postgres
