@@ -35,5 +35,10 @@ sed -i 's/ALLOWED_HOSTS = .*/ALLOWED_HOSTS = '"${ESGF_HOSTNAME}"'/g' $COG_CONFIG
 # PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
 sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
 
-# start CoG in virtual environment
-$RUNSERVER && python ./manage.py runserver 0.0.0.0:8000
+# start django server in virtual environment
+# or keep the container running
+if [ $RUNSERVER ]; then
+   $RUNSERVER && python ./manage.py runserver 0.0.0.0:8000
+else
+   tail -f /dev/null
+fi

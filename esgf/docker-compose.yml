@@ -108,20 +108,20 @@ services:
      volumes:
        - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
        - $ESGF_CONFIG/esg/config/:/esg/config/
-     # FIXME
+     #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
      command: $ESGF_HOSTNAME true false
      container_name: cog
      depends_on:
        - esgf-postgres
 
-  esgf_httpd_app:
+  esgf-httpd:
    volumes:
      - $ESGF_CONFIG/httpd/certs/:/etc/certs/
      - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
      - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
      - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
      - $ESGF_CONFIG/esg/config/:/esg/config/
-     - $PWD/httpd/esgf-docker-entrypoint.sh:/esgf-docker-entrypoint.sh
+     - $PWD/httpd/scripts/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
@@ -131,9 +131,11 @@ services:
      - "80:80"
      - "443:443"
    image: esgfhub/esgf-httpd
-   container_name: esgf_httpd
-   entrypoint: /esgf-docker-entrypoint.sh
-   # httpd URLs must use hostname='my.esgf.node'
+   container_name: httpd
+   entrypoint: /usr/local/bin/docker-entrypoint.sh
+   depends_on:
+     - esgf-cog
+   # httpd URLs must use hostname=$ESGF_HOSTNAME
    networks:
      default: {}
      mynet:

@@ -29,4 +29,5 @@ COPY html/ /var/www/html/
 
 EXPOSE 80 443
 
+ADD scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]

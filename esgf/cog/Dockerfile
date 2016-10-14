@@ -66,6 +66,7 @@ RUN echo 'export PS1="[\u@\h]\$ "' >> ~cogadmin/.bashrc
 RUN chown -R cogadmin:cogadmin $COG_DIR
 
 # expose application data (must do this AFTER chown)
+# needed by apache httpd running cog through mod_wsgi
 VOLUME $COG_DIR
 
 # scripts
