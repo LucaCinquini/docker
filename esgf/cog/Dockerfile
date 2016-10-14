@@ -72,8 +72,6 @@ VOLUME $COG_DIR
 # scripts
 COPY scripts/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/change_cog_password.sh
-# make script available to httpd service
-VOLUME /usr/local/bin
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["false", "true"]
