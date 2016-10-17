@@ -71,7 +71,7 @@ VOLUME $COG_DIR
 
 # scripts
 COPY scripts/ /usr/local/bin/
-RUN chmod +x /usr/local/bin/change_cog_password.sh
+RUN chmod +x /usr/local/bin/change_rootAdmin_password.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["false", "true"]
