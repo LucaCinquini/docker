@@ -3,7 +3,7 @@
 # ESGF_CONFIG : points to the root ESGF configuration directory
 #       example: export ESGF_CONFIG=/Users/cinquini/ESGF_CONFIG
 # SOLR_DATA_DIR : points to Solr index directory
-# 	example: export SOLR_DATA_DIR=/esg/solr-index
+# 	example: export SOLR_DATA_DIR=/Users/cinquini/ESGF_CONFIG/solr-index
 # TDS_CONTENT_ROOT : point to root directory above TDS catalogs thredds/
 #       example: export TDS_CONTENT_ROOT=/esg/content
 # ESGF_HOSTNAME: HostName or IP address for apache httpd front-end server
@@ -59,7 +59,7 @@ services:
     environment:
      - ESGF_HOME=/esg
 
-  esgf_solr_app:
+  esgf-solr:
     expose:
       - "8983"
       - "8984"
@@ -67,15 +67,15 @@ services:
       - "8983:8983"
       - "8984:8984" 
     image: esgfhub/esgf-solr
-    container_name: esgf_solr
+    container_name: solr
     volumes:
      - $SOLR_DATA_DIR:/esg/solr-index
     networks:
       default: {}
       mynet: {}
 
-  esgf_search_app:
-    image: esgfhub/esgf-search
+  esgf-index-node:
+    image: esgfhub/esgf-index-node
     expose:
       - "8080"
       - "8443"
@@ -83,10 +83,10 @@ services:
       - "8081:8080"
       - "8444:8443"
     depends_on:
-      - esgf_solr_app
+      - esgf-solr
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
-    container_name: esgf_search
+    container_name: index-node
     networks:
       default: {}
       mynet: {}

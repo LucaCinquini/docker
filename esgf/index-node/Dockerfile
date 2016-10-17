@@ -1,4 +1,4 @@
-# ESGF node with esgf-search application running inside Tomcat
+# ESGF index node:  esgf-search application running inside Tomcat
 
 FROM esgfhub/esgf-tomcat
 
