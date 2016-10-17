@@ -108,6 +108,8 @@ services:
      volumes:
        - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
        - $ESGF_CONFIG/esg/config/:/esg/config/
+       - cog_install_dir:/usr/local/cog/cog_install
+       - cog_venv_dir:/usr/local/cog/venv
      #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
      command: $ESGF_HOSTNAME true false
      container_name: cog
@@ -116,16 +118,20 @@ services:
 
   esgf-httpd:
    volumes:
+     # mapped volumes (mounted inside Docker Host, persisted even after docker-compose down)
      - $ESGF_CONFIG/httpd/certs/:/etc/certs/
      - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
      - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
      - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
      - $ESGF_CONFIG/esg/config/:/esg/config/
+     # named volumes (mounted inside Docker Engine, removed with docker-compose down)
+     - cog_install_dir:/usr/local/cog/cog_install
+     - cog_venv_dir:/usr/local/cog/venv
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
-   volumes_from:
-     - esgf-cog
+   #volumes_from:
+   #  - esgf-cog
    ports:
      - "80:80"
      - "443:443"
@@ -140,3 +146,7 @@ services:
      mynet:
        aliases:
          - "${ESGF_HOSTNAME}"
+
+volumes:
+  cog_install_dir:
+  cog_venv_dir:
