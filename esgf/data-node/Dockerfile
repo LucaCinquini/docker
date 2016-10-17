@@ -1,4 +1,4 @@
-# ESGF data node
+# ESGF Data Node:
 # o TDS customized with ESGF access control filters
 # o ORP
 
@@ -14,7 +14,8 @@ RUN cd /usr/local/tomcat/webapps/esg-orp && \
     rm esg-orp.war
 
 # properties to read the Tomcat kesytore, used to sign the authentication cookie
-COPY esgf-orp/esg-orp.properties /usr/local/tomcat/webapps/esg-orp/WEB-INF/classes/esg-orp.properties
+# these values are the same for all ESGF nodes
+COPY esgf-orp/conf/esg-orp.properties /usr/local/tomcat/webapps/esg-orp/WEB-INF/classes/esg-orp.properties
 
 # TDS
 RUN mkdir -p /usr/local/tomcat/webapps/thredds
@@ -24,19 +25,16 @@ RUN cd /usr/local/tomcat/webapps/thredds && \
     rm thredds.war
 
 # TDS memory configuration
-COPY thredds/esgf-threddsConfig.xml /esg/content/thredds/threddsConfig.xml
+COPY thredds/conf/threddsConfig.xml /esg/content/thredds/threddsConfig.xml
 
 # TDS customized applicationContext.xml file with ESGF authorizer
-COPY thredds/esgf-applicationContext.xml /usr/local/tomcat/webapps/thredds/WEB-INF/applicationContext.xml
-
-# TDS customized web.xml file with ESGF security filters
-COPY thredds/esgf-web.xml /usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
+COPY thredds/conf/applicationContext.xml /usr/local/tomcat/webapps/thredds/WEB-INF/applicationContext.xml
 
 # TDS jars necessary to support ESGF security filters
-COPY  thredds/esgf-jars/*  $CATALINA_HOME/webapps/thredds/WEB-INF/lib/
+COPY  thredds/jars/*  $CATALINA_HOME/webapps/thredds/WEB-INF/lib/
 
 # TDS customized logging (uses DEBUG)
-COPY thredds/esgf-log4j2.xml /usr/local/tomcat/webapps/thredds/WEB-INF/classes/log4j2.xml
+COPY thredds/conf/log4j2.xml /usr/local/tomcat/webapps/thredds/WEB-INF/classes/log4j2.xml
 
 # data node scripts
 COPY scripts/ /usr/share/bin/
@@ -46,7 +44,4 @@ RUN chmod +x /usr/share/bin/change_data_node_password.sh
 # COPY esgf-content/thredds/ /esg/content/thredds/
 
 # start container
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-#ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
-#ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]

@@ -19,15 +19,15 @@ networks:
 
 services:
 
-  esgf_data_node_app:
+  esgf-data-node:
+    image: esgfhub/esgf-data-node
+    container_name: data-node
     expose:
       - "8080"
       - "8443"
     ports:
       - "8080:8080"
       - "8443:8443"
-    image: esgfhub/esgf-data-node
-    container_name: esgf-data-node
     networks:
       default: {}
       mynet: {}
