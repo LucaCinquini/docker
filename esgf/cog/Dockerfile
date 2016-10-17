@@ -67,11 +67,13 @@ RUN chown -R cogadmin:cogadmin $COG_DIR
 
 # expose application data (must do this AFTER chown)
 # needed by apache httpd running cog through mod_wsgi
-VOLUME $COG_DIR
+#VOLUME $COG_DIR
 
 # scripts
 COPY scripts/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/change_rootAdmin_password.sh
+# make script available to client containers (such as apache httpd)
+#VOLUME /usr/local/bin/change_rootAdmin_password.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["false", "true"]
