@@ -40,15 +40,15 @@ services:
     depends_on:
       - esgf-postgres
 
-  esgf-idp:
+  esgf-idp-node:
+    image: esgfhub/esgf-idp-node
     expose:
       - "8080"
       - "8443"
     ports:
       - "8082:8080"
       - "8445:8443"
-    image: esgfhub/esgf-idp
-    container_name: idp
+    container_name: idp-node
     networks:
       default: {}
       mynet: {}
@@ -56,8 +56,8 @@ services:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     depends_on:
       - esgf-postgres
-    environment:
-     - ESGF_HOME=/esg
+    #environment:
+    # - ESGF_HOME=/esg
 
   esgf-solr:
     expose:

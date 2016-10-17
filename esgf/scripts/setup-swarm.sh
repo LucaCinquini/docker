@@ -61,9 +61,9 @@ docker node update --label-add esgf_type=data-node swarm-data-node-worker
 docker service create --replicas 1 --name esgf-postgres -p 5432:5432 --network swarm-network  --constraint 'node.labels.esgf_type==db' esgfhub/esgf-postgres
 
 # start 'idp' service
-docker service create --replicas 1 --name esgf-idp -p 8445:8443 --network swarm-network  \
+docker service create --replicas 1 --name esgf-idp-node -p 8445:8443 --network swarm-network  \
                       --mount type=bind,source=$ESGF_CONFIG/esg/config/,target=/esg/config/ \
-                      --constraint 'node.labels.esgf_type==idp' esgfhub/esgf-idp
+                      --constraint 'node.labels.esgf_type==idp' esgfhub/esgf-idp-node
 
 
 # start 'httpd' service using cog_dir volume
