@@ -22,12 +22,12 @@ RUN cd /usr/local/src && \
 RUN mkdir -p $SOLR_HOME
 
 # add shards
-COPY add_shard.sh /usr/local/bin/add_shard.sh
+COPY scripts/add_shard.sh /usr/local/bin/add_shard.sh
 RUN /usr/local/bin/add_shard.sh master 8984
 RUN /usr/local/bin/add_shard.sh slave 8983
 
 EXPOSE 8983
 EXPOSE 8984
 
-COPY start.sh /usr/local/bin/start.sh
-ENTRYPOINT ["/usr/local/bin/start.sh"]
+COPY scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

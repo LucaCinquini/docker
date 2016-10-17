@@ -1,4 +1,6 @@
 #!/bin/bash
+# script to start one Solr instance per shard
+# and keep the Docker container running
 
 cd $SOLR_INSTALL_DIR/bin
 export SOLR_INCLUDE=${SOLR_HOME}/solr.in.sh
