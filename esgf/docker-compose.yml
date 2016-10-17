@@ -42,13 +42,13 @@ services:
 
   esgf-idp-node:
     image: esgfhub/esgf-idp-node
+    container_name: idp-node
     expose:
       - "8080"
       - "8443"
     ports:
       - "8082:8080"
       - "8445:8443"
-    container_name: idp-node
     networks:
       default: {}
       mynet: {}
@@ -56,18 +56,16 @@ services:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     depends_on:
       - esgf-postgres
-    #environment:
-    # - ESGF_HOME=/esg
 
   esgf-solr:
+    image: esgfhub/esgf-solr
+    container_name: solr
     expose:
       - "8983"
       - "8984"
     ports:
       - "8983:8983"
       - "8984:8984" 
-    image: esgfhub/esgf-solr
-    container_name: solr
     volumes:
      - $SOLR_DATA_DIR:/esg/solr-index
     networks:
@@ -76,6 +74,7 @@ services:
 
   esgf-index-node:
     image: esgfhub/esgf-index-node
+    container_name: index-node
     expose:
       - "8080"
       - "8443"
@@ -86,7 +85,6 @@ services:
       - esgf-solr
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
-    container_name: index-node
     networks:
       default: {}
       mynet: {}
@@ -101,6 +99,7 @@ services:
 
   esgf-cog:
      image: esgfhub/esgf-cog
+     container_name: cog
      expose:
        - "8000"
      ports:
@@ -112,11 +111,13 @@ services:
        - cog_venv_dir:/usr/local/cog/venv
      #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
      command: $ESGF_HOSTNAME true false
-     container_name: cog
      depends_on:
        - esgf-postgres
 
   esgf-httpd:
+   image: esgfhub/esgf-httpd
+   container_name: httpd
+   entrypoint: /usr/local/bin/docker-entrypoint.sh
    volumes:
      # mapped volumes (mounted inside Docker Host, persisted even after docker-compose down)
      - $ESGF_CONFIG/httpd/certs/:/etc/certs/
@@ -130,14 +131,9 @@ services:
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
-   #volumes_from:
-   #  - esgf-cog
    ports:
      - "80:80"
      - "443:443"
-   image: esgfhub/esgf-httpd
-   container_name: httpd
-   entrypoint: /usr/local/bin/docker-entrypoint.sh
    depends_on:
      - esgf-cog
    # httpd URLs must use hostname=$ESGF_HOSTNAME
