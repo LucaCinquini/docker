@@ -2,6 +2,7 @@
 # Script to generate certificates needed for an ESGF node
 # All certificates are generated in the directory $ESGF_CONFIG/esgfcerts, then moved to the proper location under $ESGF_CONFIG
 # Usage: ./generate_certificates.sh <FQDN>
+# Example: ./generate_certificates.sh docker-node.esgf.org
 
 if [ "${ESGF_CONFIG}" = "" ];
 then

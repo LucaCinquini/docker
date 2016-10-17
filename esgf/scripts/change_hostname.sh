@@ -1,6 +1,9 @@
 #!/bin/bash
 # script to change the ESGF node hostname
 # among other things, this script changes several configuration files in the directory tree under $ESGF_CONFIG
+# Usage: ./change_hostname.sh <FQDN>
+# Example: ./change_hostname.sh docker-node.esgf.org
+
 
 if [ "${ESGF_CONFIG}" = "" ];
 then
@@ -19,9 +22,9 @@ sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/esg/config/esgf_shar
 # change apache httpd configuration
 sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/httpd/conf/esgf-httpd.conf
 
-# change CoG initial settings (used to seed cog_settings.cfg)
-sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/esgf-cog_settings.cfg
-#sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
+# change CoG settings (both files cog_settings.cfg and esgf-cog_settings.cfg)
+sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/*cog_settings.cfg
+
 
 # change TDS access control filters
 sed -i -- 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml
