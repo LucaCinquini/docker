@@ -19,11 +19,11 @@ docker stop postgres
 # change password in common ESGF configuration files under $ESGF_CONFIG/esg/config
 echo ${ESGF_PASSWORD} > ${ESGF_CONFIG}/esg/config/.esg_pg_pass
 echo ${ESGF_PASSWORD} > ${ESGF_CONFIG}/esg/config/.esgf_pass
-sed -i -- 's/db.password=.*/db.password='"${ESGF_PASSWORD}"'/g' ${ESGF_CONFIG}/esg/config/esgf.properties
+sed -i .back 's/db.password=.*/db.password='"${ESGF_PASSWORD}"'/g' ${ESGF_CONFIG}/esg/config/esgf.properties
 
 # change password to access the postgres databases in CoG settings file
-sed -i -- 's/DATABASE_PASSWORD = .*/DATABASE_PASSWORD = '"${ESGF_PASSWORD}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
-sed -i -- 's/dbsuper:.*@esgf-postgres/dbsuper:'"${ESGF_PASSWORD}"'@esgf-postgres/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
+sed -i .back 's/DATABASE_PASSWORD = .*/DATABASE_PASSWORD = '"${ESGF_PASSWORD}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
+sed -i .back 's/dbsuper:.*@esgf-postgres/dbsuper:'"${ESGF_PASSWORD}"'@esgf-postgres/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
 
 # change password inside (running) data-node container
 docker start data-node
