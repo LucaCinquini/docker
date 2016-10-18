@@ -6,9 +6,13 @@ FROM esgfhub/esgf-tomcat
 
 MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 
+# default ESGF repository
+ARG ESGF_REPO=http://distrib-coffee.ipsl.jussieu.fr/pub/esgf
+
 # ESGF ORP
 RUN mkdir -p /usr/local/tomcat/webapps/esg-orp
-COPY esgf-orp/esg-orp.war /usr/local/tomcat/webapps/esg-orp/esg-orp.war
+#COPY esgf-orp/esg-orp.war /usr/local/tomcat/webapps/esg-orp/esg-orp.war
+ADD $ESGF_REPO/dist/esg-orp/esg-orp.war /usr/local/tomcat/webapps/esg-orp/
 RUN cd /usr/local/tomcat/webapps/esg-orp && \
     jar xvf esg-orp.war && \
     rm esg-orp.war
@@ -19,7 +23,8 @@ COPY esgf-orp/conf/esg-orp.properties /usr/local/tomcat/webapps/esg-orp/WEB-INF/
 
 # TDS
 RUN mkdir -p /usr/local/tomcat/webapps/thredds
-COPY thredds/thredds.war /usr/local/tomcat/webapps/thredds/thredds.war
+#COPY thredds/thredds.war /usr/local/tomcat/webapps/thredds/thredds.war
+ADD $ESGF_REPO/dist/thredds/5.0/5.0.0/thredds.war /usr/local/tomcat/webapps/thredds/
 RUN cd /usr/local/tomcat/webapps/thredds && \
     jar xvf thredds.war && \
     rm thredds.war
