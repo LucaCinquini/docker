@@ -8,6 +8,7 @@ MAINTAINER Luca Cinquini <luca.cinquini@jpl.nasa.gov>
 # must have version 4.9.2+
 
 ARG ESGF_REPO=http://distrib-coffee.ipsl.jussieu.fr/pub/esgf
-ADD $ESGF_REPO/dist/esg-search/esg-search.war /usr/local/tomcat/webapps/
+ADD $ESGF_REPO/dist/devel/esg-search/esg-search.war /usr/local/tomcat/webapps/
+#COPY esg-search.war /usr/local/tomcat/webapps/.
 
 ENTRYPOINT ["/usr/local/tomcat/bin/catalina.sh", "run"]
