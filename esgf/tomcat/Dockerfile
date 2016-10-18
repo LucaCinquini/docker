@@ -1,8 +1,6 @@
 # ESGF node with Tomcat configured for ESGF services:
-# o ESGF configuration files located in /esg/config
-# o ESGF keystore for "my.esgf.node"
-# o ESGF trusstore
-# o ESGF_HOME env
+# o Tomcat keystore, truststore files located in /esg/config/tomcat
+# o startup with ESGF specific env variables defined in bin/setenv.sh
 
 FROM esgfhub/esgf-node
 
@@ -25,12 +23,13 @@ RUN cd /usr/local/tomcat/webapps && \
 # server.xml: includes keystore, truststore
 # context.xml: increases the Tomcat cache to avoid flood of warning messages
 COPY conf/ /usr/local/tomcat/conf/
+COPY certs/ /esg/config/tomcat/
 
 # custom env variables for starting Tomcat
 COPY bin/setenv.sh $CATALINA_HOME/bin
 
-VOLUME /esg/config
-VOLUME /esg/content
+#VOLUME /esg/config
+#VOLUME /esg/content
 
 EXPOSE 8080
 EXPOSE 8009

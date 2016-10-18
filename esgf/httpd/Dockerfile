@@ -21,11 +21,13 @@ RUN cd /etc/httpd/modules && \
 RUN mkdir -p /var/www/.python-eggs && \
     chown -R apache:apache /var/www/.python-eggs
 
-# FIXME
-#COPY certs/ /etc/certs/
-#COPY conf.d/ /etc/httpd/conf.d/
-#COPY html/ /var/www/html/
+# configuration for standalone service
+# (overridden by ESGF settings when running with docker-compose from parent directory)
+COPY certs/ /etc/certs/
+COPY conf.d/ /etc/httpd/conf.d/
+COPY html/ /var/www/html/
 
 EXPOSE 80 443
 
+ADD scripts/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]

@@ -18,11 +18,11 @@ su --login - postgres --command "psql -c \"CREATE DATABASE cogdb;\""
 # create ESGF database
 su --login - postgres --command "psql -c \"CREATE DATABASE esgcet;\""
 # load ESGF schemas
-su --login - postgres --command "psql esgcet < /usr/share/bin/esgf_esgcet.sql"
-su --login - postgres --command "psql esgcet < /usr/share/bin/esgf_node_manager.sql"
-su --login - postgres --command "psql esgcet < /usr/share/bin/esgf_security.sql"
+su --login - postgres --command "psql esgcet < /usr/local/bin/esgf_esgcet.sql"
+su --login - postgres --command "psql esgcet < /usr/local/bin/esgf_node_manager.sql"
+su --login - postgres --command "psql esgcet < /usr/local/bin/esgf_security.sql"
 # load ESGF data
-su --login - postgres --command "psql esgcet < /usr/share/bin/esgf_security_data.sql"
+su --login - postgres --command "psql esgcet < /usr/local/bin/esgf_security_data.sql"
 # list database users
 su --login - postgres --command "psql -c \"\du;\""
 }

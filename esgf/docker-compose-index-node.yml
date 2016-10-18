@@ -19,44 +19,6 @@ networks:
 
 services:
 
-  esgf-data-node:
-    image: esgfhub/esgf-data-node
-    container_name: data-node
-    expose:
-      - "8080"
-      - "8443"
-    ports:
-      - "8080:8080"
-      - "8443:8443"
-    networks:
-      default: {}
-      mynet: {}
-    volumes:
-      - $ESGF_CONFIG/esg/config/:/esg/config/
-    #  - $TDS_CONTENT_ROOT:/esg/content
-      - $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml:/usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
-    environment:
-     - ESGF_HOSTNAME
-    depends_on:
-      - esgf-postgres
-
-  esgf-idp-node:
-    image: esgfhub/esgf-idp-node
-    container_name: idp-node
-    expose:
-      - "8080"
-      - "8443"
-    ports:
-      - "8082:8080"
-      - "8445:8443"
-    networks:
-      default: {}
-      mynet: {}
-    volumes:
-      - $ESGF_CONFIG/esg/config/:/esg/config/
-    depends_on:
-      - esgf-postgres
-
   esgf-solr:
     image: esgfhub/esgf-solr
     container_name: solr
@@ -97,23 +59,6 @@ services:
        - "5432:5432"
      container_name: postgres
 
-  esgf-cog:
-     image: esgfhub/esgf-cog
-     container_name: cog
-     expose:
-       - "8000"
-     ports:
-       - "8000:8000"
-     volumes:
-       - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
-       - $ESGF_CONFIG/esg/config/:/esg/config/
-       - cog_install_dir:/usr/local/cog/cog_install
-       - cog_venv_dir:/usr/local/cog/venv
-     #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
-     command: $ESGF_HOSTNAME true false
-     depends_on:
-       - esgf-postgres
-
   esgf-httpd:
    image: esgfhub/esgf-httpd
    container_name: httpd
@@ -125,24 +70,12 @@ services:
      - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
      - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
      - $ESGF_CONFIG/esg/config/:/esg/config/
-     # named volumes (mounted inside Docker Engine, removed with docker-compose down)
-     - cog_install_dir:/usr/local/cog/cog_install
-     - cog_venv_dir:/usr/local/cog/venv
-   environment:
-     - SSL_CERT_DIR=/etc/grid-security/certificates
-     - COG_CONFIG_DIR=/usr/local/cog/cog_config
    ports:
      - "80:80"
      - "443:443"
-   depends_on:
-     - esgf-cog
    # httpd URLs must use hostname=$ESGF_HOSTNAME
    networks:
      default: {}
      mynet:
        aliases:
          - "${ESGF_HOSTNAME}"
-
-volumes:
-  cog_install_dir:
-  cog_venv_dir:
