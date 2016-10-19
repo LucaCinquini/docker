@@ -57,6 +57,14 @@ services:
     depends_on:
       - esgf-postgres
 
+  #esgf-solr-index:
+  #  image: centos:centos6.7
+  #  container_name: solr-index
+  #  volumes:
+  #     # use existing index
+  #     #- $SOLR_DATA_DIR:/esg/solr-index
+  #     - /esg/solr-index
+
   esgf-solr:
     image: esgfhub/esgf-solr
     container_name: solr
@@ -67,7 +75,10 @@ services:
       - "8983:8983"
       - "8984:8984" 
     volumes:
-     - $SOLR_DATA_DIR:/esg/solr-index
+     # use Docker volume mounted on Docker-host
+     - solr_index:/esg/solr-index
+     # use pre-existing Solr index on Docker host
+     #- $SOLR_DATA_DIR:/esg/solr-index
     networks:
       default: {}
       mynet: {}
@@ -146,3 +157,5 @@ services:
 volumes:
   cog_install_dir:
   cog_venv_dir:
+  # contains Solr index data
+  solr_index:
