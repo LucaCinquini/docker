@@ -115,8 +115,9 @@ services:
      ports:
        - "8000:8000"
      volumes:
-       - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
+       # directory containig ESGF configuratiin, also used for seeding the CoG configuration
        - $ESGF_CONFIG/esg/config/:/esg/config/
+       - cog_config_dir:/usr/local/cog/cog_config
        - cog_install_dir:/usr/local/cog/cog_install
        - cog_venv_dir:/usr/local/cog/venv
      #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
@@ -125,6 +126,11 @@ services:
        - esgf-postgres
      networks:
        - dbnetwork
+     environment:
+       - COG_DIR=/usr/local/cog
+       - COG_INSTALL_DIR=/usr/local/cog/cog_install
+       - COG_CONFIG_DIR=/usr/local/cog/cog_config
+
 
   esgf-httpd:
    image: esgfhub/esgf-httpd
@@ -135,11 +141,11 @@ services:
      - $ESGF_CONFIG/httpd/certs/:/etc/certs/
      - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
      - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
-     - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
      - $ESGF_CONFIG/esg/config/:/esg/config/
      # named volumes (mounted inside Docker Engine, removed with docker-compose down)
      - cog_install_dir:/usr/local/cog/cog_install
      - cog_venv_dir:/usr/local/cog/venv
+     - cog_config_dir:/usr/local/cog/cog_config
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
@@ -156,8 +162,11 @@ services:
      dbnetwork: {}
 
 volumes:
+  # cog software directories (shared between cog and httpd)
   cog_install_dir:
   cog_venv_dir:
+  # cog data directory
+  cog_config_dir:
   # contains Solr index data
   solr_index:
   # contains TDS configuration, catalogs, cache, and logs

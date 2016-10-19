@@ -70,7 +70,7 @@ RUN chown -R cogadmin:cogadmin $COG_DIR
 #VOLUME $COG_DIR
 
 # scripts
-COPY scripts/ /usr/local/bin/
+COPY scripts/  /usr/local/bin/
 RUN chmod +x /usr/local/bin/change_rootAdmin_password.sh
 # make script available to client containers (such as apache httpd)
 #VOLUME /usr/local/bin/change_rootAdmin_password.sh

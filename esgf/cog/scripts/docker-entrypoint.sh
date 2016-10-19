@@ -17,13 +17,6 @@ echo "RUNSERVER=$RUNSERVER"
 # use virtualenv
 source $COG_DIR/venv/bin/activate
 
-# initialize COG settings with ESGF settings, if needed
-if [ -f "${COG_CONFIG_DIR}/esgf-cog_settings.cfg" ]; then
-   if [ ! -f "${COG_CONFIG_DIR}/cog_settings.cfg" ]; then
-     cp ${COG_CONFIG_DIR}/esgf-cog_settings.cfg ${COG_CONFIG_DIR}/cog_settings.cfg
-   fi
-fi
-
 # upgrade CoG
 cd $COG_INSTALL_DIR
 python setup.py -q setup_cog --esgf=$ESGF_FLAG
@@ -32,7 +25,7 @@ python setup.py -q setup_cog --esgf=$ESGF_FLAG
 echo "Using ESGF_HOSTNAME=$ESGF_HOSTNAME"
 sed -i 's/ALLOWED_HOSTS = .*/ALLOWED_HOSTS = '"${ESGF_HOSTNAME}"'/g' $COG_CONFIG_DIR/cog_settings.cfg
 
-# PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
+# FIXME:  PRODUCTION_SERVER = True would require use of SSL to transmit any cookie
 sed -i 's/PRODUCTION_SERVER = True/PRODUCTION_SERVER = False/g' $COG_CONFIG_DIR/cog_settings.cfg
 
 # start django server in virtual environment

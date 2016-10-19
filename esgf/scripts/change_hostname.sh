@@ -22,8 +22,8 @@ sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/esg/config/esgf_s
 # change apache httpd configuration
 sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/httpd/conf/esgf-httpd.conf
 
-# change CoG settings (both files cog_settings.cfg and esgf-cog_settings.cfg)
-sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/*cog_settings.cfg
+# change CoG settings
+sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
 
 
 # change TDS access control filters
