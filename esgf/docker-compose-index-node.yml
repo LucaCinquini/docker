@@ -2,10 +2,6 @@
 #
 # ESGF_CONFIG : points to the root ESGF configuration directory
 #       example: export ESGF_CONFIG=/Users/cinquini/ESGF_CONFIG
-# SOLR_DATA_DIR : points to Solr index directory
-# 	example: export SOLR_DATA_DIR=/Users/cinquini/ESGF_CONFIG/solr-index
-# TDS_CONTENT_ROOT : point to root directory above TDS catalogs thredds/
-#       example: export TDS_CONTENT_ROOT=/esg/content
 # ESGF_HOSTNAME: HostName or IP address for apache httpd front-end server
 #       example: export ESGF_HOSTNAME=my.esgf.node
 #       example: export ESGF_HOSTNAME=`docker-machine ip`
@@ -13,11 +9,21 @@
 version: '2'
 
 networks:
-  mynet:
-    external:
-      name: esgf-network
+  # network to keep postgres database isolated
+  dbnetwork:
 
 services:
+
+  # data container holding site-specific ESGF configuration
+  esgf-config:
+    image: centos:centos6.7
+    container_name: esgf-config
+    volumes:
+     - $ESGF_CONFIG/httpd/certs/:/etc/certs/
+     - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+     - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
+     - $ESGF_CONFIG/esg/config/:/esg/config/
+     - $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml:/usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
 
   esgf-solr:
     image: esgfhub/esgf-solr
@@ -29,10 +35,9 @@ services:
       - "8983:8983"
       - "8984:8984" 
     volumes:
-     - $SOLR_DATA_DIR:/esg/solr-index
+     - solr_data:/esg/solr-index
     networks:
-      default: {}
-      mynet: {}
+      - default
 
   esgf-index-node:
     image: esgfhub/esgf-index-node
@@ -45,11 +50,11 @@ services:
       - "8444:8443"
     depends_on:
       - esgf-solr
-    volumes:
-      - $ESGF_CONFIG/esg/config/:/esg/config/
+    volumes_from:
+      - esgf-config
     networks:
-      default: {}
-      mynet: {}
+      - default
+      - dbnetwork
 
   esgf-postgres:
      image: esgfhub/esgf-postgres
@@ -58,24 +63,28 @@ services:
      ports:
        - "5432:5432"
      container_name: postgres
+     networks:
+       - dbnetwork
+
 
   esgf-httpd:
    image: esgfhub/esgf-httpd
    container_name: httpd
    entrypoint: /usr/local/bin/docker-entrypoint.sh
-   volumes:
-     # mapped volumes (mounted inside Docker Host, persisted even after docker-compose down)
-     - $ESGF_CONFIG/httpd/certs/:/etc/certs/
-     - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
-     - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
-     - $ESGF_CONFIG/cog/cog_config/:/usr/local/cog/cog_config/
-     - $ESGF_CONFIG/esg/config/:/esg/config/
+   volumes_from:
+     - esgf-config
    ports:
      - "80:80"
      - "443:443"
    # httpd URLs must use hostname=$ESGF_HOSTNAME
    networks:
-     default: {}
-     mynet:
+     default:
        aliases:
          - "${ESGF_HOSTNAME}"
+     dbnetwork: {}
+
+# use Docker volumes to store persistent data
+# (which survives when the containers are removed)
+volumes:
+  # contains Solr index data
+  solr_data:
