@@ -2,8 +2,6 @@
 #
 # ESGF_CONFIG : points to the root ESGF configuration directory
 #       example: export ESGF_CONFIG=/Users/cinquini/ESGF_CONFIG
-# TDS_CONTENT_ROOT : point to root directory above TDS catalogs thredds/
-#       example: export TDS_CONTENT_ROOT=/esg/content
 # ESGF_HOSTNAME: HostName or IP address for apache httpd front-end server
 #       example: export ESGF_HOSTNAME=my.esgf.node
 #       example: export ESGF_HOSTNAME=`docker-machine ip`

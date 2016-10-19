@@ -23,8 +23,7 @@ sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/esg/config/esgf_s
 sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/httpd/conf/esgf-httpd.conf
 
 # change CoG settings
-sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
-
+#sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
 
 # change TDS access control filters
 sed -i .back 's/my\.esgf\.node/'"${hostname}"'/g' $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml

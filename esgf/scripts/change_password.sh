@@ -22,8 +22,11 @@ echo ${ESGF_PASSWORD} > ${ESGF_CONFIG}/esg/config/.esgf_pass
 sed -i .back 's/db.password=.*/db.password='"${ESGF_PASSWORD}"'/g' ${ESGF_CONFIG}/esg/config/esgf.properties
 
 # change password to access the postgres databases in CoG settings file
-sed -i .back 's/DATABASE_PASSWORD = .*/DATABASE_PASSWORD = '"${ESGF_PASSWORD}"'/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
-sed -i .back 's/dbsuper:.*@esgf-postgres/dbsuper:'"${ESGF_PASSWORD}"'@esgf-postgres/g' $ESGF_CONFIG/cog/cog_config/cog_settings.cfg
+# from within the running cog container
+docker start cog
+docker exec -it cog /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/local/bin/change_cog_database_password.sh"
+docker exec -it cog /bin/bash -c "export ESGF_PASSWORD=${ESGF_PASSWORD} && /usr/local/bin/change_cog_rootAdmin_password.sh"
+docker stop cog
 
 # change password inside (running) data-node container
 docker start data-node

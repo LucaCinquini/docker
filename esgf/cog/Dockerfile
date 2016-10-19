@@ -71,10 +71,8 @@ VOLUME $COG_DIR/venv
 VOLUME $COG_INSTALL_DIR
 
 # scripts
-COPY scripts/  /usr/local/bin/
-RUN chmod +x /usr/local/bin/change_rootAdmin_password.sh
-# make script available to client containers (such as apache httpd)
-#VOLUME /usr/local/bin/change_rootAdmin_password.sh
+COPY scripts/ /usr/local/bin/
+RUN chmod +x /usr/local/bin/*.sh
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["false", "true"]
