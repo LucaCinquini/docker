@@ -2,8 +2,6 @@
 #
 # ESGF_CONFIG : points to the root ESGF configuration directory
 #       example: export ESGF_CONFIG=/Users/cinquini/ESGF_CONFIG
-# SOLR_DATA_DIR : points to Solr index directory
-# 	example: export SOLR_DATA_DIR=/Users/cinquini/ESGF_CONFIG/solr-index
 # TDS_CONTENT_ROOT : point to root directory above TDS catalogs thredds/
 #       example: export TDS_CONTENT_ROOT=/esg/content
 # ESGF_HOSTNAME: HostName or IP address for apache httpd front-end server
@@ -35,6 +33,7 @@ services:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     #  - $TDS_CONTENT_ROOT:/esg/content
       - $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml:/usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
+      - tds_data:/esg/content/thredds
     environment:
      - ESGF_HOSTNAME
     depends_on:
@@ -159,3 +158,6 @@ volumes:
   cog_venv_dir:
   # contains Solr index data
   solr_index:
+  # contains TDS configuration, catalogs, cache, and logs
+  # (directory below -Dtds.content.root.path=/esg/content)
+  tds_data:
