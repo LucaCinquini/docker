@@ -29,10 +29,9 @@ services:
       - default
       - dbnetwork 
     volumes:
-      - $ESGF_CONFIG/esg/config/:/esg/config/
-    #  - $TDS_CONTENT_ROOT:/esg/content
-      - $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml:/usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
       - tds_data:/esg/content/thredds
+    volumes_from:
+      - esgf-config
     environment:
      - ESGF_HOSTNAME
     depends_on:
@@ -50,18 +49,22 @@ services:
     networks:
       - default
       - dbnetwork
-    volumes:
-      - $ESGF_CONFIG/esg/config/:/esg/config/
+    volumes_from:
+      - esgf-config
     depends_on:
       - esgf-postgres
 
-  #esgf-solr-index:
-  #  image: centos:centos6.7
-  #  container_name: solr-index
-  #  volumes:
-  #     # use existing index
-  #     #- $SOLR_DATA_DIR:/esg/solr-index
-  #     - /esg/solr-index
+  # data container holding site-specific ESGF configuration
+  esgf-config:
+    image: centos:centos6.7
+    container_name: esgf-config
+    volumes:
+     - $ESGF_CONFIG/httpd/certs/:/etc/certs/
+     - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
+     - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
+     - $ESGF_CONFIG/esg/config/:/esg/config/
+     - $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml:/usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
+
 
   esgf-solr:
     image: esgfhub/esgf-solr
@@ -73,10 +76,7 @@ services:
       - "8983:8983"
       - "8984:8984" 
     volumes:
-     # use Docker volume mounted on Docker-host
      - solr_data:/esg/solr-index
-     # use pre-existing Solr index on Docker host
-     #- $SOLR_DATA_DIR:/esg/solr-index
     networks:
       - default
 
@@ -91,8 +91,8 @@ services:
       - "8444:8443"
     depends_on:
       - esgf-solr
-    volumes:
-      - $ESGF_CONFIG/esg/config/:/esg/config/
+    volumes_from:
+      - esgf-config
     networks:
       - default
       - dbnetwork
@@ -115,9 +115,9 @@ services:
      ports:
        - "8000:8000"
      volumes:
-       # directory containig ESGF configuratiin, also used for seeding the CoG configuration
-       - $ESGF_CONFIG/esg/config/:/esg/config/
        - cog_data:/usr/local/cog/cog_config
+     volumes_from:
+      - esgf-config
      #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
      command: $ESGF_HOSTNAME true false
      depends_on:
@@ -135,13 +135,9 @@ services:
    container_name: httpd
    entrypoint: /usr/local/bin/docker-entrypoint.sh
    volumes:
-     # mapped volumes (mounted inside Docker Host, persisted even after docker-compose down)
-     - $ESGF_CONFIG/httpd/certs/:/etc/certs/
-     - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
-     - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
-     - $ESGF_CONFIG/esg/config/:/esg/config/
      - cog_data:/usr/local/cog/cog_config
    volumes_from:
+     - esgf-config
      - esgf-cog
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
