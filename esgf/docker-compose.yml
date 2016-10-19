@@ -11,9 +11,8 @@
 version: '2'
 
 networks:
-  mynet:
-    external:
-      name: esgf-network
+  # network to keep postgres database isolated
+  dbnetwork:
 
 services:
 
@@ -27,8 +26,8 @@ services:
       - "8080:8080"
       - "8443:8443"
     networks:
-      default: {}
-      mynet: {}
+      - default
+      - dbnetwork 
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     #  - $TDS_CONTENT_ROOT:/esg/content
@@ -49,8 +48,8 @@ services:
       - "8082:8080"
       - "8445:8443"
     networks:
-      default: {}
-      mynet: {}
+      - default
+      - dbnetwork
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     depends_on:
@@ -79,8 +78,7 @@ services:
      # use pre-existing Solr index on Docker host
      #- $SOLR_DATA_DIR:/esg/solr-index
     networks:
-      default: {}
-      mynet: {}
+      - default
 
   esgf-index-node:
     image: esgfhub/esgf-index-node
@@ -96,8 +94,8 @@ services:
     volumes:
       - $ESGF_CONFIG/esg/config/:/esg/config/
     networks:
-      default: {}
-      mynet: {}
+      - default
+      - dbnetwork
 
   esgf-postgres:
      image: esgfhub/esgf-postgres
@@ -106,6 +104,8 @@ services:
      ports:
        - "5432:5432"
      container_name: postgres
+     networks:
+       - dbnetwork
 
   esgf-cog:
      image: esgfhub/esgf-cog
@@ -123,6 +123,8 @@ services:
      command: $ESGF_HOSTNAME true false
      depends_on:
        - esgf-postgres
+     networks:
+       - dbnetwork
 
   esgf-httpd:
    image: esgfhub/esgf-httpd
@@ -148,10 +150,10 @@ services:
      - esgf-cog
    # httpd URLs must use hostname=$ESGF_HOSTNAME
    networks:
-     default: {}
-     mynet:
+     default:
        aliases:
          - "${ESGF_HOSTNAME}"
+     dbnetwork: {}
 
 volumes:
   cog_install_dir:
