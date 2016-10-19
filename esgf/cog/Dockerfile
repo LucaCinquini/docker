@@ -65,9 +65,10 @@ RUN echo 'export PS1="[\u@\h]\$ "' >> ~cogadmin/.bashrc
 # change ownership of application directories
 RUN chown -R cogadmin:cogadmin $COG_DIR
 
-# expose application data (must do this AFTER chown)
+# expose software installation directories
 # needed by apache httpd running cog through mod_wsgi
-#VOLUME $COG_DIR
+VOLUME $COG_DIR/venv
+VOLUME $COG_INSTALL_DIR
 
 # scripts
 COPY scripts/  /usr/local/bin/

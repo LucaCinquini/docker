@@ -74,7 +74,7 @@ services:
       - "8984:8984" 
     volumes:
      # use Docker volume mounted on Docker-host
-     - solr_index:/esg/solr-index
+     - solr_data:/esg/solr-index
      # use pre-existing Solr index on Docker host
      #- $SOLR_DATA_DIR:/esg/solr-index
     networks:
@@ -117,9 +117,7 @@ services:
      volumes:
        # directory containig ESGF configuratiin, also used for seeding the CoG configuration
        - $ESGF_CONFIG/esg/config/:/esg/config/
-       - cog_config_dir:/usr/local/cog/cog_config
-       - cog_install_dir:/usr/local/cog/cog_install
-       - cog_venv_dir:/usr/local/cog/venv
+       - cog_data:/usr/local/cog/cog_config
      #command: $ESGF_HOSTNAME true true # keep django runnining on port 8000
      command: $ESGF_HOSTNAME true false
      depends_on:
@@ -142,10 +140,9 @@ services:
      - $ESGF_CONFIG/httpd/conf/esgf-httpd.conf:/etc/httpd/conf.d/esgf-httpd.conf
      - $ESGF_CONFIG/grid-security/certificates/:/etc/grid-security/certificates/
      - $ESGF_CONFIG/esg/config/:/esg/config/
-     # named volumes (mounted inside Docker Engine, removed with docker-compose down)
-     - cog_install_dir:/usr/local/cog/cog_install
-     - cog_venv_dir:/usr/local/cog/venv
-     - cog_config_dir:/usr/local/cog/cog_config
+     - cog_data:/usr/local/cog/cog_config
+   volumes_from:
+     - esgf-cog
    environment:
      - SSL_CERT_DIR=/etc/grid-security/certificates
      - COG_CONFIG_DIR=/usr/local/cog/cog_config
@@ -161,14 +158,13 @@ services:
          - "${ESGF_HOSTNAME}"
      dbnetwork: {}
 
+# use Docker volumes to store persistent data
+# (which survives when the containers are removed)
 volumes:
-  # cog software directories (shared between cog and httpd)
-  cog_install_dir:
-  cog_venv_dir:
   # cog data directory
-  cog_config_dir:
+  cog_data:
   # contains Solr index data
-  solr_index:
+  solr_data:
   # contains TDS configuration, catalogs, cache, and logs
   # (directory below -Dtds.content.root.path=/esg/content)
   tds_data:
