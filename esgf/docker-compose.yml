@@ -14,6 +14,7 @@ networks:
 
 services:
 
+  # ESGF Data Node
   esgf-data-node:
     image: esgfhub/esgf-data-node
     container_name: data-node
@@ -35,6 +36,7 @@ services:
     depends_on:
       - esgf-postgres
 
+  # ESGF Identity Provider
   esgf-idp-node:
     image: esgfhub/esgf-idp-node
     container_name: idp-node
@@ -64,6 +66,7 @@ services:
      - $ESGF_CONFIG/webapps/thredds/WEB-INF/web.xml:/usr/local/tomcat/webapps/thredds/WEB-INF/web.xml
 
 
+  # Solr engine running within Jetty
   esgf-solr:
     image: esgfhub/esgf-solr
     container_name: solr
@@ -78,6 +81,7 @@ services:
     networks:
       - default
 
+  # ESGF Index Node
   esgf-index-node:
     image: esgfhub/esgf-index-node
     container_name: index-node
@@ -93,8 +97,9 @@ services:
       - esgf-config
     networks:
       - default
-      - dbnetwork
+    #  - dbnetwork
 
+  # ESGF postgres database
   esgf-postgres:
      image: esgfhub/esgf-postgres
      expose:
@@ -105,6 +110,7 @@ services:
      networks:
        - dbnetwork
 
+  # data container to hold CoG source code and python virtual environment
   esgf-cog:
      image: esgfhub/esgf-cog
      container_name: cog
