@@ -1,16 +1,16 @@
 #!/bin/bash
-# Script to generate certificates needed for an ESGF node
+# Script to generate certificates needed for an ESGF node with a given $ESGF_HOSTNAME
 # All certificates are generated in the directory $ESGF_CONFIG/esgfcerts, then moved to the proper location under $ESGF_CONFIG
-# Usage: ./generate_certificates.sh <FQDN>
-# Example: ./generate_certificates.sh docker-node.esgf.org
 
-if [ "${ESGF_CONFIG}" = "" ];
+# verify env variables are set
+if [ "${ESGF_HOSTNAME}" = "" ] || [ "${ESGF_CONFIG}" = "" ];
 then
-   echo "Env variable ESGF_CONFIG must be set  "
+   echo "All env variables: ESGF_HOSTNAME, ESGF_CONFIG must be set  "
    exit -1
+else
+   echo "Using ESGF_HOSTNAME=$ESGF_HOSTNAME"
+   echo "Using ESGF_CONFIG=$ESGF_CONFIG"
 fi
-
-hostname="$1"
 
 # working directory
 mkdir -p $ESGF_CONFIG/esgfcerts
@@ -20,8 +20,8 @@ cp ../httpd/certs/esgf-ca-bundle.crt-orig ./esgf-ca-bundle.crt
 
 # generate host private key hostkey.pem, certificate hostcert.pem
 echo ""
-echo "Generating host certificate, key for $hostname"
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout hostkey.pem -out hostcert.pem -subj "/C=/ST=/L=/O=ESGF/OU=/CN=$hostname"
+echo "Generating host certificate, key for $ESGF_HOSTNAME"
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout hostkey.pem -out hostcert.pem -subj "/C=/ST=/L=/O=ESGF/OU=/CN=$ESGF_HOSTNAME"
 
 # convert certificate to pkcs12 format
 echo ""

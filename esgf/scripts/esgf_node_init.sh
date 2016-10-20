@@ -1,57 +1,44 @@
 #! /bin/bash
-# driver script to initialize an ESGF node
-# Usage:    esgf_node_init.sh -h <hostname> -d <configuration directory>
-# Example:  esgf_node_init.sh -h <my-node.esgf.org> -d ~/ESGF_CONFIG
+# Driver script to initialize an ESGF node
+# Configuration is provided via env variables:
+# $ESGF_HOSTNAME : FQDN of ESGF host
+# $ESGF_CONFIG : root directory where all site specific configuration is stored
 #
 # This script will:
 # o initialize the content of a new site-specific configuration directory: <configuration directory>
 # o generate new self-signed certificates for the given <hostname>
 # o change all site configuration to use <hostname>
 
-# argument default values
-hostname=''
-configdir=''
-
-# parse command line arguments
-while getopts 'h:p:d:' flag; do
-  case "${flag}" in
-    h) hostname="${OPTARG}" ;;
-    d) configdir="${OPTARG}" ;;
-  esac
-done
-if [ "$hostname" = "" ] || [ "$configdir" = "" ];
+# verify env variables are set
+if [ "${ESGF_HOSTNAME}" = "" ] || [ "${ESGF_CONFIG}" = "" ];
 then
-   echo "Usage: esgf_node_init.sh -h <hostname> -d <configuration directory>" 
+   echo "All env variables: ESGF_HOSTNAME, ESGF_CONFIG must be set  "
    exit -1
 else
-   echo "Using hostname=$hostname"
-   echo "Using configdir=$configdir"
+   echo "Using ESGF_HOSTNAME=$ESGF_HOSTNAME"
+   echo "Using ESGF_CONFIG=$ESGF_CONFIG"
 fi
-
-# set env variables needed by child scripts
-export ESGF_CONFIG=$configdir
-export ESGF_HOSTNAME=$hostname
 
 # initialize the node configuration directory
 echo ""
 echo "Initializing the node configuration directory with default content..."
 echo "Removing any existing content..."
-if [ -e $configdir ]
+if [ -e $ESGF_CONFIG ]
 then
-   rm -rf $configdir/*
+   rm -rf $ESGF_CONFIG/*
 else
-   mkdir -p $configdir
+   mkdir -p $ESGF_CONFIG
 fi
-cp -R ../esgf_config/* $configdir/.
+cp -R ../esgf_config/* $ESGF_CONFIG/.
 
 # generate new certificates
 echo ""
 echo "Generating new self-signed certificates..."
-./generate_certificates.sh $hostname
+./generate_certificates.sh
 
 # change node configuration to use new hostname
 echo ""
-echo "Changing configuration for hostname=$hostname..."
-./change_hostname.sh $hostname
+echo "Changing configuration for hostname=$ESGF_HOSTNAME..."
+./change_hostname.sh
 
 echo "... ESGF node initialization completed."
