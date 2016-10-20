@@ -8,9 +8,6 @@
 
 version: '2'
 
-networks:
-  # network to keep postgres database isolated
-  dbnetwork:
 
 services:
 
@@ -54,18 +51,6 @@ services:
       - esgf-config
     networks:
       - default
-      - dbnetwork
-
-  esgf-postgres:
-     image: esgfhub/esgf-postgres
-     expose:
-       - "5432"
-     ports:
-       - "5432:5432"
-     container_name: postgres
-     networks:
-       - dbnetwork
-
 
   esgf-httpd:
    image: esgfhub/esgf-httpd
@@ -81,7 +66,6 @@ services:
      default:
        aliases:
          - "${ESGF_HOSTNAME}"
-     dbnetwork: {}
 
 # use Docker volumes to store persistent data
 # (which survives when the containers are removed)
