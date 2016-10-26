@@ -50,6 +50,11 @@ RUN cd $COG_DIR && \
     make  && \
     cp mkproxy $COG_DIR/venv/lib/python2.7/site-packages/globusonline_transfer_api_client-0.10.18-py2.7.egg/globusonline/transfer/api_client/x509_proxy/.
 
+# for some unknown reason, must reinstall captcha
+RUN source $COG_DIR/venv/bin/activate && \
+    pip uninstall -y django-simple-captcha && \
+    pip install django-simple-captcha==0.5.1
+
 # expose default django port
 EXPOSE 8000
 
