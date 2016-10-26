@@ -1,12 +1,15 @@
 #!/bin/sh
-# ESGF installation with Docker Swarm.
+# ESGF installation with Docker Swarm on local laptop.
 # Example script that installs the ESGF software stack 
 # on a set of local VMs running Docker Engine in Swarm mode.
 
 # The swarm is composed of:
-# - 1 'swarm-manager' manager node
-# - 1 'swarm-worker1' worker node, configured to run a customized OODT file manager
-# - 2 'swarm-worker2,3' worker nodes, configured to run a customized OODT workflow manager
+# - 'swarm-manager' manager node, running no ESGF services
+# - 'swarm-db-worker' worker node, configured to run the ESGF postgres database
+# - 'swarm-idp-worker' worker node, configured to run the ESGF Idenity Provider
+# - 'swarm-index-worker' worker node, configured to run Solr and the ESGF Search web application
+# - 'swarm-data-node-worker' worker node, configured the TDS and ORP web applications
+# - 'swarm-front-end-worker' worker node, configured to run the CoG web UI front-ended by the Apache httpd daemon
 
 # create all VMs
 docker-machine create -d virtualbox swarm-manager
@@ -56,16 +59,3 @@ docker node update --label-add esgf_type=idp swarm-idp-worker
 docker node update --label-add esgf_type=index swarm-index-worker
 docker node update --label-add esgf_type=front-end swarm-front-end-worker
 docker node update --label-add esgf_type=data-node swarm-data-node-worker
-
-# start 'postgres' service
-docker service create --replicas 1 --name esgf-postgres -p 5432:5432 --network swarm-network  --constraint 'node.labels.esgf_type==db' esgfhub/esgf-postgres
-
-# start 'idp' service
-docker service create --replicas 1 --name esgf-idp-node -p 8445:8443 --network swarm-network  \
-                      --mount type=bind,source=$ESGF_CONFIG/esg/config/,target=/esg/config/ \
-                      --constraint 'node.labels.esgf_type==idp' esgfhub/esgf-idp-node
-
-
-# start 'httpd' service using cog_dir volume
-docker service create --replicas 1 --name esgf-httpd -p 80:80 -p 443:443 --network swarm-network  \
-                      --constraint 'node.labels.esgf_type==front-end' esgfhub/esgf-httpd
