@@ -30,6 +30,8 @@ else
    mkdir -p $ESGF_CONFIG
 fi
 cp -R ../esgf_config/* $ESGF_CONFIG/.
+# empty directory needed for CoG initialization
+mkdir -p $ESGF_CONFIG/cog/cog_config
 
 # generate new certificates
 echo ""
