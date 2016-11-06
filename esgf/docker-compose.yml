@@ -55,6 +55,7 @@ services:
       - esgf-postgres
 
   # data container holding site-specific ESGF configuration
+  # this container stops after the volumes are initialized
   esgf-config:
     image: centos:centos6.7
     container_name: esgf-config
@@ -111,6 +112,7 @@ services:
        - dbnetwork
 
   # data container to hold CoG source code and python virtual environment
+  # this container stops after the volume 'cog_data' is initialized
   esgf-cog:
      image: esgfhub/esgf-cog
      container_name: cog
