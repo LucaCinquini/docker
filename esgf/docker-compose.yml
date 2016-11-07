@@ -5,6 +5,7 @@
 # ESGF_HOSTNAME: HostName or IP address for apache httpd front-end server
 #       example: export ESGF_HOSTNAME=my.esgf.node
 #       example: export ESGF_HOSTNAME=`docker-machine ip`
+# ESGF_DATA_DIR: root of ESGF data directories
 
 version: '2'
 
@@ -162,6 +163,18 @@ services:
        aliases:
          - "${ESGF_HOSTNAME}"
      dbnetwork: {}
+
+  # FTP server
+  esgf-ftp:
+   image: esgfhub/esgf-vsftp
+   container_name: ftp 
+   ports:
+     - "21:21"
+   networks:
+     - default
+   volumes:
+     - $ESGF_DATA_DIR:/var/ftp/pub
+   
 
 # use Docker volumes to store persistent data
 # (which survives when the containers are removed)
